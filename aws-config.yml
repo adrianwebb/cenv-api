@@ -9,7 +9,7 @@ config:
 
   aws_admin_machine: t2.medium
 
-  admin_db_max_connections: 10
+  admin_db_max_connections: 1
   admin_thread_count: 20
   admin_terraform_max_processes: 10
   admin_ansible_max_processes: 10
