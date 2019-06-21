@@ -1,0 +1,14 @@
+tasks: tasks
+profiles: .
+
+lib: false
+modules:
+  cluster:
+    provider: git
+    remote: https://github.com/venturiscm/cenv-cluster.git
+    reference: master
+
+  percona:
+    provider: git
+    remote: https://github.com/venturiscm/cenv-percona.git
+    reference: master

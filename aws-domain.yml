@@ -1,0 +1,9 @@
+parents:
+  - module: cluster
+    profile: aws-domain
+
+  - aws-config
+
+domain:
+  "@root_domain":
+    certificate_authority: letsencrypt
