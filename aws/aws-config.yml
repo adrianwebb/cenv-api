@@ -1,0 +1,31 @@
+parents:
+  - config
+
+config:
+  aws_networks:
+    - aws-us-east-1
+
+  aws_admin_subnet: admin-gateway
+  aws_admin_cluster_subnets:
+    - admin-a
+    - admin-b
+    - admin-c
+
+  aws_admin_machine: t2.medium
+  aws_admin_tenancy: default
+  aws_admin_monitoring: false
+  aws_admin_ebs_optimized: false
+
+  aws_admin_ebs_type: gp2
+  aws_admin_ebs_size: 20
+  aws_admin_ebs_iops: null
+  aws_admin_ebs_encrypted: false
+  aws_admin_data_device: /dev/xvdb
+
+  aws_admin_lb_timeout: 60
+  aws_admin_lb_health_path: /status
+  aws_admin_lb_healthy_status: 200
+  aws_admin_lb_health_check_interval: 30
+  aws_admin_lb_health_timeout: 10
+  aws_admin_lb_healthy_threshold: 3
+  aws_admin_lb_unhealthy_threshold: 3
