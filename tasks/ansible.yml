@@ -3,7 +3,6 @@ _ansible: &ansible
   provider: ansible
   roles: server-admin
   directory: ansible
-  group_vars: variables
 
 
 bootstrap:
