@@ -1,8 +1,8 @@
 lib: false
 tasks: tasks
 profiles:
-  - .
-  - aws
+  - profiles
+  - profiles/aws
 
 modules:
   cluster:
