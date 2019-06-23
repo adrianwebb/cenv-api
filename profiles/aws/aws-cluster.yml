@@ -42,14 +42,6 @@ subnet:
     nat_subnet: nat-c
     groups: "@admin_cluster_group"
 
-firewall:
-  nfs:
-    rules:
-      tcp-in:
-        cidrs: "&subnet:@aws_admin_cluster_subnets:cidr"
-      udp-in:
-        cidrs: "&subnet:@aws_admin_cluster_subnets:cidr"
-
 storage:
   "@{admin_server_name}-lib":
     provider: efs
