@@ -1,0 +1,172 @@
+parents:
+  - module: percona
+    profile: aws-config
+
+  - aws-core
+
+certificate:
+  "@admin_cluster_name":
+    provider: aws
+    network: "@aws_networks"
+    domain: "@root_domain"
+    groups: "@admin_cluster_group"
+
+subnet:
+  admin-a:
+    requires: "@aws_nat_subnets"
+    when_in: "@aws_admin_cluster_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@admin_subnet_cidr_prefix"
+    zone_suffix: a
+    use_public_ip: "@admin_subnet_public_ip"
+    nat_subnet: nat-a
+    groups: "@admin_cluster_group"
+
+  admin-b:
+    requires: "@aws_nat_subnets"
+    when_in: "@aws_admin_cluster_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@admin_subnet_cidr_prefix"
+    zone_suffix: b
+    use_public_ip: "@admin_subnet_public_ip"
+    nat_subnet: nat-b
+    groups: "@admin_cluster_group"
+
+  admin-c:
+    requires: "@aws_nat_subnets"
+    when_in: "@aws_admin_cluster_subnets"
+    network: "@aws_networks"
+    cidr_prefix: "@admin_subnet_cidr_prefix"
+    zone_suffix: c
+    use_public_ip: "@admin_subnet_public_ip"
+    nat_subnet: nat-c
+    groups: "@admin_cluster_group"
+
+firewall:
+  nfs:
+    rules:
+      tcp-in:
+        cidrs: "&subnet:@aws_admin_cluster_subnets:cidr"
+      udp-in:
+        cidrs: "&subnet:@aws_admin_cluster_subnets:cidr"
+
+storage:
+  "@{admin_server_name}-lib":
+    provider: efs
+    network: "@aws_networks"
+    performance_mode: "@aws_storage_performance_mode"
+    throughput_mode:  "@aws_storage_throughput_mode"
+    provisioned_throughput: "@aws_storage_provisioned_throughput"
+    encrypted: "@aws_storage_encrypted"
+    groups: "@admin_cluster_group"
+
+mount:
+  "@{admin_cluster_name}-lib":
+    storage: "@{admin_cluster_name}-lib"
+    network: "@aws_networks"
+    subnet: "@aws_admin_cluster_subnets"
+    groups: "@admin_cluster_group"
+    firewalls: "@storage_firewalls"
+
+load_balancer:
+  "@{admin_cluster_name}-@environment":
+    provider: aws_application
+    network: "@aws_networks"
+    subnets: "@aws_admin_cluster_subnets"
+    domain: "@root_domain"
+    internal: false
+    idle_timeout: "@aws_admin_lb_timeout"
+    groups: "@admin_cluster_group"
+    firewalls:
+      - internet
+      - admin-external
+    listeners:
+      https:
+        port: "@admin_port"
+        certificate: "@admin_cluster_name"
+        target_port: "@admin_port"
+        target_protocol: https
+        health_check_path: "@aws_admin_lb_health_path"
+        health_check_interval: "@aws_admin_lb_health_check_interval"
+        health_check_timeout: "@aws_admin_lb_health_timeout"
+        healthy_status: "@aws_admin_lb_healthy_status"
+        healthy_threshold: "@aws_admin_lb_healthy_threshold"
+        unhealthy_threshold: "@aws_admin_lb_unhealthy_threshold"
+
+server:
+  "@admin_cluster_name":
+    count: 1
+    provider: ec2_lb
+    network: "@aws_networks"
+    subnet: "@aws_admin_cluster_subnets"
+    image: "@aws_ubuntu_image[<network>]"
+    ssh_port: "@ssh_port"
+    user: "@aws_ubuntu_user"
+    machine: "@aws_admin_machine"
+    tenancy: "@aws_admin_tenancy"
+    monitoring: "@aws_admin_monitoring"
+    ebs_optimized: "@aws_admin_ebs_optimized"
+    load_balancer: "@{admin_cluster_name}-@environment"
+    load_balancer_listener: https
+    groups: "@admin_cluster_group"
+    volumes:
+      /usr/local/lib/cenv:
+        type: nfs4
+        location: "&{mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
+        options: "@aws_efs_volume_options"
+        mode: "0770"
+    firewalls:
+      - internet
+      - ssh-external
+      - admin-external
+
+run:
+  cenv-credentials:
+    server_search: groups.name=@admin_cluster_group
+
+  cenv-user-environment:
+    servers: groups.name=@admin_cluster_group
+
+  percona-cluster-db:
+    module: percona
+    task: database
+    databases_present:
+      "@admin_cluster_database":
+        collation: utf8_general_ci
+        encoding: utf8
+
+  percona-cluster-user:
+    requires: percona-cluster-db
+    module: percona
+    task: user
+    users_present:
+      "@admin_cluster_database_user":
+        password: "@admin_cluster_password"
+        privileges:
+          - "@admin_cluster_database.*:ALL"
+        host: "%"
+
+  cenv-app-environment:
+    scopes:
+      network: "@aws_networks"
+    servers:
+      - subnet.network.name=<network>
+      - groups.name=@admin_cluster_group
+    env:
+      CENV_MYSQL_HOST: "&load_balancer(network=<network>):percona-db:variables[lb_dns_name]"
+      CENV_MYSQL_PORT: "@percona_port"
+      CENV_MYSQL_DB: "@admin_cluster_database"
+      CENV_MYSQL_USER: "@admin_cluster_database_user"
+      CENV_MYSQL_PASSWORD: "@admin_cluster_password"
+
+  cenv-cluster:
+    servers: groups.name=@admin_cluster_group
+    requires:
+      - percona-cluster-user
+      - cenv-app-environment
+
+  cenv-wait:
+    host: "&server(network=@aws_networks[0];subnet=@aws_admin_subnets[0]):@{admin_cluster_name}1:ip"
+
+  deploy-cenv:
+    server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_subnets[0]):@{admin_cluster_name}1:id
