@@ -40,7 +40,7 @@ subnet:
     groups: "@admin_cluster_group"
 
 storage:
-  "@{admin_server_name}-lib":
+  "@{admin_cluster_name}-lib":
     provider: efs
     network: "@aws_networks"
     performance_mode: "@aws_storage_performance_mode"
