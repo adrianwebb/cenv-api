@@ -1,0 +1,30 @@
+config:
+  root_domain: webb.app
+  root_domain_email: "adrian@webb.sh"
+
+  admin_group: cenv
+
+  admin_server_host_name: admin
+  admin_server_name: cenv-admin
+  admin_server_group: cenv-admin
+  admin_server_database: "%%cenv_server_database:30"
+  admin_server_database_user: "%%cenv_server_database_user:30"
+  admin_server_password: "%%cenv_server_password:30"
+
+  admin_cluster_name: cenv
+  admin_cluster_group: cenv-cluster
+  admin_cluster_database: "%%cenv_cluster_database:30"
+  admin_cluster_database_user: "%%cenv_cluster_database_user:30"
+  admin_cluster_password: "%%cenv_cluster_password:30"
+
+  admin_subnet_cidr_prefix: 28
+  admin_subnet_public_ip: true
+
+  admin_port: 5123
+  admin_data_dir: /var/local/data
+
+  admin_parallel: true
+  admin_db_max_connections: 1
+  admin_thread_count: 10
+  admin_terraform_max_processes: 10
+  admin_ansible_max_processes: 10
