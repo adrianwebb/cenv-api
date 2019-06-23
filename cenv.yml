@@ -1,7 +1,9 @@
-tasks: tasks
-profiles: .
-
 lib: false
+tasks: tasks
+profiles:
+  - .
+  - aws
+
 modules:
   cluster:
     provider: git
