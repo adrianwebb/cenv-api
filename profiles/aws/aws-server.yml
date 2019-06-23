@@ -3,7 +3,6 @@ parents:
 
 subnet:
   "@aws_admin_subnet":
-    requires: "@aws_nat_subnets"
     network: "@aws_networks[0]"
     cidr_prefix: "@admin_subnet_cidr_prefix"
     zone_suffix: a
