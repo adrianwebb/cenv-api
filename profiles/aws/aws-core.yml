@@ -10,6 +10,7 @@ run:
 
   cenv-user-environment:
     requires: cenv-credentials
+    module: cluster
     task: user-environment
 
   cenv-app-environment:
@@ -45,6 +46,7 @@ run:
 
   cenv-wait:
     requires: cenv-cluster
+    module: cluster
     task: wait
     port: "@admin_port"
     timeout: 600
