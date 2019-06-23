@@ -1,0 +1,35 @@
+parents:
+  - module: cluster
+    profile: aws-config
+
+  - aws-config
+
+group:
+  "@admin_server_group":
+  "@admin_cluster_group":
+  "@admin_group":
+    - "@admin_server_group"
+    - "@admin_cluster_group"
+
+firewall:
+  admin-external:
+    network: "@aws_networks"
+    groups: "@admin_group"
+    rules:
+      tcp_in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@admin_port"
+        to_port: "@admin_port"
+
+  admin-internal:
+    requires: admin-external
+    network: "@aws_networks"
+    groups: "@admin_group"
+    rules:
+      tcp_in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@admin_port"
+        to_port: "@admin_port"
+        source_firewall: admin-external
