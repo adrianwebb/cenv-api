@@ -1,6 +1,6 @@
 parents:
   - module: cluster
-    profile: aws-network
+    profile: aws-config
 
   - aws-config
 
