@@ -21,7 +21,7 @@ profile:
     module: percona
     profile: aws-cluster
 
-  # cenv-cluster:
-  #   requires: percona-cluster
-  #   host: "@admin_server_host_name"
-  #   profile: aws-cluster
+  cenv-cluster:
+    requires: percona-cluster
+    host: "@admin_server_host_name"
+    profile: aws-cluster
