@@ -1,0 +1,54 @@
+parents:
+  - module: cluster
+    profile: aws-config
+
+  - aws-config
+
+run:
+  cenv-credentials:
+    command: server rotate
+
+  cenv-user-environment:
+    requires: cenv-credentials
+    task: user-environment
+
+  cenv-app-environment:
+    requires: cenv-credentials
+    task: environment
+    env:
+      CENV_DEFAULT_ENV_NAME: "@environment"
+      CENV_DEFAULT_HOST_NAME: "@DEFAULT_HOST_NAME"
+      CENV_DEFAULT_RUNTIME_REPO: "@DEFAULT_RUNTIME_REPO"
+      CENV_DEFAULT_RUNTIME_IMAGE: "@DEFAULT_RUNTIME_IMAGE"
+      CENV_SECRET_KEY: "%%cenv_secret_key:50"
+      CENV_PARALLEL: "@admin_parallel"
+      CENV_THREAD_COUNT: "@admin_thread_count"
+      CENV_TIME_ZONE: "@primary_timezone"
+      CENV_CORE_MODULE: "@CORE_MODULE"
+      CENV_DEFAULT_MODULES: " @DEFAULT_MODULES "
+      CENV_DB_PACKAGE_ALL_NAME: "@DB_PACKAGE_ALL_NAME"
+      CENV_DB_MAX_CONNECTIONS: "@admin_db_max_connections"
+      CENV_LOG_LEVEL: "@LOG_LEVEL"
+      CENV_ALLOWED_HOSTS: "@ALLOWED_HOSTS"
+      CENV_ADMIN_USER: "@ADMIN_USER"
+      CENV_DEFAULT_ADMIN_TOKEN: "@DEFAULT_ADMIN_TOKEN"
+      CENV_TERRAFORM_MAX_PROCESSES: "@admin_terraform_max_processes"
+      CENV_ANSIBLE_MAX_PROCESSES: "@admin_ansible_max_processes"
+
+  cenv-cluster:
+    requires: cenv-app-environment
+    task: bootstrap
+    ntp_timezone: "@primary_timezone"
+    app_user: "@aws_ubuntu_user"
+    docker_users:
+      - "@aws_ubuntu_user"
+
+  cenv-wait:
+    requires: cenv-cluster
+    task: wait
+    port: "@admin_port"
+    timeout: 600
+
+  deploy-cenv:
+    requires: cenv-wait
+    command: deploy
