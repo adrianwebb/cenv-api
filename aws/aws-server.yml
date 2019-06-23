@@ -1,0 +1,68 @@
+parents:
+  - aws-core
+
+subnet:
+  "@aws_admin_subnet":
+    requires: "@aws_nat_subnets"
+    network: "@aws_networks[0]"
+    cidr_prefix: "@admin_subnet_cidr_prefix"
+    zone_suffix: a
+    use_public_ip: "@admin_subnet_public_ip"
+    nat_subnet: nat-a
+    groups: "@admin_server_group"
+
+server:
+  "@admin_server_name":
+    count: 1
+    provider: ec2
+    network: "@aws_networks[0]"
+    subnet: "@aws_admin_subnet"
+    image: "@aws_ubuntu_image[<network>]"
+    ssh_port: "@ssh_port"
+    user: "@aws_ubuntu_user"
+    machine: "@aws_admin_machine"
+    tenancy: "@aws_admin_tenancy"
+    monitoring: "@aws_admin_monitoring"
+    ebs_optimized: "@aws_admin_ebs_optimized"
+    groups: "@admin_server_group"
+    domain: "@root_domain"
+    domain_name: "@{admin_server_name}-@environment"
+    volumes:
+      "@admin_data_dir":
+        provider: aws_ebs
+        type: ext4
+        location: "@aws_admin_data_device"
+        ebs_type: "@aws_admin_ebs_type"
+        ebs_size: "@aws_admin_ebs_size"
+        ebs_iops: "@aws_admin_ebs_iops"
+        ebs_encrypted: "@aws_admin_ebs_encrypted"
+    firewalls:
+      - internet
+      - ssh-external
+      - admin-external
+
+run:
+  cenv-credentials:
+    server_search: groups.name=@admin_server_group
+
+  cenv-user-environment:
+    servers: groups.name=@admin_server_group
+
+  cenv-app-environment:
+    servers: groups.name=@admin_server_group
+    env:
+      CENV_POSTGRES_DB: "@admin_server_database"
+      CENV_POSTGRES_USER: "@admin_server_database_user"
+      CENV_POSTGRES_PASSWORD: "@admin_server_password"
+
+  cenv-cluster:
+    servers: groups.name=@admin_server_group
+    remote_docker_compose: https://raw.githubusercontent.com/venturiscm/cenv/master/app/docker-compose.standalone.yml
+
+  cenv-wait:
+    host: "&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:ip"
+
+  deploy-cenv:
+    server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:id
+    destination: "@{admin_server_name}-@environment.@root_domain"
+    destination_name: "@admin_server_host_name"
