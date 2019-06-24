@@ -1,0 +1,16 @@
+parents:
+  - aws-config
+
+profile:
+  base-network:
+    module: cluster
+    profile: aws-network
+    operations: run
+
+  cenv-network:
+    requires: base-network
+    profile: aws-network
+
+  cenv-admin:
+    requires: cenv-network
+    profile: aws-server

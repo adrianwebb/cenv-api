@@ -1,0 +1,25 @@
+parents:
+  - aws-config
+
+profile:
+  base-network:
+    module: cluster
+    profile: aws-network
+    operations: run
+
+  cenv-network:
+    requires: base-network
+    profile: aws-network
+    operations: run
+
+  percona-cluster:
+    requires: base-network
+    module: percona
+    profile: aws-cluster
+
+  cenv-cluster:
+    profile: aws-cluster
+    deploy_cenv: false
+    requires:
+      - cenv-network
+      - percona-cluster
