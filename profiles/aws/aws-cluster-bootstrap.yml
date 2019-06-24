@@ -41,3 +41,8 @@ run:
   cenv-cluster-rotate:
     requires: cenv-host
     command: user rotate
+
+destroy_post:
+  cenv-admin-host:
+    command: host rm
+    host_name: "@admin_server_host_name"
