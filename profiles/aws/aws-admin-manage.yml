@@ -13,4 +13,5 @@ profile:
 
   cenv-admin:
     requires: cenv-network
+    deploy_cenv: false
     profile: aws-server
