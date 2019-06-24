@@ -52,5 +52,6 @@ run:
     timeout: 600
 
   deploy-cenv:
+    when: "@deploy_cenv"
     requires: cenv-wait
     command: deploy
