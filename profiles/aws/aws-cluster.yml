@@ -116,6 +116,27 @@ run:
   cenv-user-environment:
     servers: groups.name=@admin_cluster_group
 
+  percona-cluster-db:
+    module: percona
+    task: database
+    servers: groups.name=percona
+    databases_present:
+      "@admin_cluster_database":
+        collation: utf8_general_ci
+        encoding: utf8
+
+  percona-cluster-user:
+    requires: percona-cluster-user
+    module: percona
+    task: user
+    servers: groups.name=percona
+    users_present:
+      "@admin_cluster_database_user":
+        password: "@admin_cluster_password"
+        privileges:
+          - "@admin_cluster_database.*:ALL"
+        host: "%"
+
   cenv-app-environment:
     scopes:
       network: "@aws_networks"
