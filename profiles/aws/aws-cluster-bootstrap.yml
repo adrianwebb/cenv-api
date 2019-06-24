@@ -1,6 +1,14 @@
 parents:
   - aws-config
 
+run_pre:
+  cenv-host:
+    command: host rm
+
+destroy_pre:
+  cenv-host:
+    command: host rm
+
 profile:
   base-network:
     module: cluster
@@ -28,7 +36,7 @@ profile:
     profile: aws-cluster
     deploy_cenv: true
 
-run:
+run_post:
   cenv-host:
     command: host save
     host_fields:
