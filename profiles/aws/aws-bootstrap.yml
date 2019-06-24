@@ -20,8 +20,18 @@ profile:
     host: "@admin_server_host_name"
     module: percona
     profile: aws-cluster
+    users_present:
+      "@admin_cluster_database_user":
+        password: "@admin_cluster_password"
+        privileges:
+          - "@admin_cluster_database.*:ALL"
+        host: "%"
+    databases_present:
+      "@admin_cluster_database":
+        collation: utf8_general_ci
+        encoding: utf8
 
-  cenv-cluster:
-    requires: percona-cluster
-    host: "@admin_server_host_name"
-    profile: aws-cluster
+  # cenv-cluster:
+  #   requires: percona-cluster
+  #   host: "@admin_server_host_name"
+  #   profile: aws-cluster
