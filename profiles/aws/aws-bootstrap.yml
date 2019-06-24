@@ -25,3 +25,17 @@ profile:
     requires: percona-cluster
     host: "@admin_server_host_name"
     profile: aws-cluster
+
+run:
+  cenv-host:
+    command: host save
+    host_fields:
+      host: "@{admin_cluster_name}-@environment.@root_domain"
+
+  cenv-admin-rotate:
+    command: user rotate
+    host: "@admin_server_host_name"
+
+  cenv-cluster-rotate:
+    requires: cenv-host
+    command: user rotate
