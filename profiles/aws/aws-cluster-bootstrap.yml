@@ -14,6 +14,7 @@ profile:
   cenv-admin:
     requires: cenv-network
     profile: aws-server
+    deploy_cenv: true
 
   percona-cluster:
     requires: cenv-admin
@@ -25,6 +26,7 @@ profile:
     requires: percona-cluster
     host: "@admin_server_host_name"
     profile: aws-cluster
+    deploy_cenv: true
 
 run:
   cenv-host:
