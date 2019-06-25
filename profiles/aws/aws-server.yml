@@ -40,7 +40,7 @@ server:
       - ssh-external
       - admin-external
 
-run:
+post_run:
   cenv-credentials:
     server_search: groups.name=@admin_server_group
 

@@ -1,11 +1,11 @@
 parents:
   - aws-config
 
-run_pre:
+pre_run:
   cenv-host:
     command: host rm
 
-destroy_pre:
+pre_destroy:
   cenv-host:
     command: host rm
 
@@ -36,7 +36,7 @@ profile:
     profile: aws-cluster
     deploy_cenv: true
 
-run_post:
+post_run:
   cenv-host:
     command: host save
     host_fields:
@@ -50,7 +50,7 @@ run_post:
     requires: cenv-host
     command: user rotate
 
-destroy_post:
+post_destroy:
   cenv-admin-host:
     command: host rm
     host_name: "@admin_server_host_name"
