@@ -48,7 +48,7 @@ run:
     requires: cenv-cluster
     module: cluster
     task: wait
-    port: "@admin_port"
+    wait_port: "@admin_port"
     timeout: 600
 
   deploy-cenv:
