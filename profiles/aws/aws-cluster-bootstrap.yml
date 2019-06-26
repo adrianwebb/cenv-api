@@ -1,14 +1,6 @@
 parents:
   - aws-config
 
-pre_run:
-  cenv-host:
-    command: host rm
-
-pre_destroy:
-  cenv-host:
-    command: host rm
-
 profile:
   base-network:
     module: cluster
@@ -49,8 +41,3 @@ post_run:
   cenv-cluster-rotate:
     requires: cenv-host
     command: user rotate
-
-post_destroy:
-  cenv-admin-host:
-    command: host rm
-    host_name: "@admin_server_host_name"
