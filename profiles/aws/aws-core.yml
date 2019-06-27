@@ -26,7 +26,7 @@ post_run:
       CENV_THREAD_COUNT: "@admin_thread_count"
       CENV_TIME_ZONE: "@primary_timezone"
       CENV_CORE_MODULE: "@CORE_MODULE"
-      CENV_DEFAULT_MODULES: " @DEFAULT_MODULES "
+      CENV_DEFAULT_MODULES: "@>DEFAULT_MODULES"
       CENV_DB_PACKAGE_ALL_NAME: "@DB_PACKAGE_ALL_NAME"
       CENV_DB_MAX_CONNECTIONS: "@admin_db_max_connections"
       CENV_LOG_LEVEL: "@LOG_LEVEL"
