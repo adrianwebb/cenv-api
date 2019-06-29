@@ -3,8 +3,6 @@ parents:
 
 config:
   admin_server_host_name: default
-  admin_server_name: cenv
-  admin_server_group: cenv
 
 profile:
   base-network:
