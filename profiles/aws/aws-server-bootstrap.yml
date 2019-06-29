@@ -1,0 +1,36 @@
+parents:
+  - aws-config
+
+config:
+  admin_server_host_name: default
+  admin_server_name: cenv
+  admin_server_group: cenv
+
+profile:
+  base-network:
+    module: cluster
+    profile: aws-network
+    operations: run
+
+  cenv-network:
+    requires: base-network
+    profile: aws-network
+
+  cenv-admin:
+    requires: cenv-network
+    profile: aws-server
+    deploy_cenv: true
+
+post_run:
+  cenv-host:
+    command: host save
+    host_fields:
+      host: "@{admin_server_name}-@environment.@root_domain"
+
+  cenv-server-rotate:
+    requires: cenv-host
+    command: user rotate
+
+post_destroy:
+  cenv-admin-host:
+    command: host rm
