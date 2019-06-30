@@ -20,13 +20,7 @@ profile:
     deploy_cenv: true
 
 post_run:
-  cenv-host:
-    command: host save
-    host_fields:
-      host: "@{admin_server_name}-@environment.@root_domain"
-
   cenv-server-rotate:
-    requires: cenv-host
     command: user rotate
 
 post_destroy:
