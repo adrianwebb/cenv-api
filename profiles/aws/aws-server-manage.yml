@@ -1,9 +1,6 @@
 parents:
   - aws-config
 
-config:
-  admin_server_host_name: default
-
 profile:
   base-network:
     module: cluster
@@ -17,12 +14,4 @@ profile:
   cenv-admin:
     requires: cenv-network
     profile: aws-server
-    deploy_cenv: true
-
-post_run:
-  cenv-server-rotate:
-    command: user rotate
-
-post_destroy:
-  cenv-admin-host:
-    command: host rm
+    deploy_cenv: false
