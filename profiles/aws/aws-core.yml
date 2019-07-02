@@ -45,6 +45,7 @@ post_run:
       - "@aws_ubuntu_user"
 
   cenv-wait:
+    when: "@deploy_cenv"
     requires: cenv-cluster
     module: cluster
     task: wait
