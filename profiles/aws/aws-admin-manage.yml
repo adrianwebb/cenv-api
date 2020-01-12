@@ -7,11 +7,11 @@ profile:
     profile: aws-network
     operations: run
 
-  cenv-network:
+  mcmi-network:
     requires: base-network
     profile: aws-network
 
-  cenv-admin:
-    requires: cenv-network
-    deploy_cenv: false
+  mcmi-admin:
+    requires: mcmi-network
+    deploy_mcmi: false
     profile: aws-server

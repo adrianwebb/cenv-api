@@ -7,7 +7,7 @@ profile:
     profile: aws-network
     operations: run
 
-  cenv-network:
+  mcmi-network:
     requires: base-network
     profile: aws-network
     operations: run
@@ -17,9 +17,9 @@ profile:
     module: percona
     profile: aws-cluster
 
-  cenv-cluster:
+  mcmi-cluster:
     profile: aws-cluster
-    deploy_cenv: false
+    deploy_mcmi: false
     requires:
-      - cenv-network
+      - mcmi-network
       - percona-cluster

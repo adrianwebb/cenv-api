@@ -7,10 +7,10 @@ profiles:
 modules:
   cluster:
     provider: git
-    remote: https://github.com/venturiscm/cenv-cluster.git
+    remote: https://github.com/dccs-tech/mcmi-cluster.git
     reference: master
 
   percona:
     provider: git
-    remote: https://github.com/venturiscm/cenv-percona.git
+    remote: https://github.com/dccs-tech/mcmi-percona.git
     reference: master

@@ -1,5 +1,5 @@
 ---
-- name: service | stop cenv-application
+- name: service | stop mcmi-application
   shell: docker-compose rm --stop --force
   become: yes
   become_user: "{{ app_user }}"
@@ -16,7 +16,7 @@
     group: "{{ app_user }}"
     mode: "0664"
 
-- name: service | start cenv-application
+- name: service | start mcmi-application
   shell: docker-compose up -d
   become: yes
   become_user: "{{ app_user }}"

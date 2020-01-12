@@ -6,7 +6,7 @@ _server: &server
 environment:
   <<: *server
   provider: remote_command
-  command: env | grep 'CENV_' > @env_file
+  command: env | grep 'MCMI_' > @env_file
   options:
     env_file: ~/.env
 

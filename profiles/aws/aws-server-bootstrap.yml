@@ -10,19 +10,19 @@ profile:
     profile: aws-network
     operations: run
 
-  cenv-network:
+  mcmi-network:
     requires: base-network
     profile: aws-network
 
-  cenv-admin:
-    requires: cenv-network
+  mcmi-admin:
+    requires: mcmi-network
     profile: aws-server
-    deploy_cenv: true
+    deploy_mcmi: true
 
 post_run:
-  cenv-server-rotate:
+  mcmi-server-rotate:
     command: user rotate
 
 post_destroy:
-  cenv-admin-host:
+  mcmi-admin-host:
     command: host rm

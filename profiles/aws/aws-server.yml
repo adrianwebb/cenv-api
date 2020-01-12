@@ -41,27 +41,27 @@ server:
       - admin-external
 
 post_run:
-  cenv-credentials:
+  mcmi-credentials:
     server_search: groups.name=@admin_server_group
 
-  cenv-user-environment:
+  mcmi-user-environment:
     servers: groups.name=@admin_server_group
 
-  cenv-app-environment:
+  mcmi-app-environment:
     servers: groups.name=@admin_server_group
     env:
-      CENV_POSTGRES_DB: "@admin_server_database"
-      CENV_POSTGRES_USER: "@admin_server_database_user"
-      CENV_POSTGRES_PASSWORD: "@admin_server_password"
+      MCMI_POSTGRES_DB: "@admin_server_database"
+      MCMI_POSTGRES_USER: "@admin_server_database_user"
+      MCMI_POSTGRES_PASSWORD: "@admin_server_password"
 
-  cenv-cluster:
+  mcmi-cluster:
     servers: groups.name=@admin_server_group
-    remote_docker_compose: https://raw.githubusercontent.com/venturiscm/cenv/master/app/docker-compose.standalone.yml
+    remote_docker_compose: https://raw.githubusercontent.com/dccs-tech/mcmi/master/app/docker-compose.standalone.yml
 
-  cenv-wait:
+  mcmi-wait:
     wait_hosts: "&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:ip"
 
-  deploy-cenv:
+  deploy-mcmi:
     server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:id
     destination: "@{admin_server_name}-@environment.@root_domain"
     destination_name: "@admin_server_host_name"

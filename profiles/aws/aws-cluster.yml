@@ -99,7 +99,7 @@ server:
     load_balancer_listener: https
     groups: "@admin_cluster_group"
     volumes:
-      /usr/local/lib/cenv:
+      /usr/local/lib/mcmi:
         type: nfs4
         location: "&{mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
         options: "@aws_efs_volume_options"
@@ -110,10 +110,10 @@ server:
       - admin-external
 
 post_run:
-  cenv-credentials:
+  mcmi-credentials:
     server_search: groups.name=@admin_cluster_group
 
-  cenv-user-environment:
+  mcmi-user-environment:
     servers: groups.name=@admin_cluster_group
 
   percona-cluster-db:
@@ -137,27 +137,27 @@ post_run:
           - "@admin_cluster_database.*:ALL"
         host: "%"
 
-  cenv-app-environment:
+  mcmi-app-environment:
     scopes:
       network: "@aws_networks"
     servers:
       - subnet.network.name=<network>
       - groups.name=@admin_cluster_group
     env:
-      CENV_MYSQL_HOST: "&load_balancer(network=<network>):percona-db:variables[lb_dns_name]"
-      CENV_MYSQL_PORT: "@percona_port"
-      CENV_MYSQL_DB: "@admin_cluster_database"
-      CENV_MYSQL_USER: "@admin_cluster_database_user"
-      CENV_MYSQL_PASSWORD: "@admin_cluster_password"
+      MCMI_MYSQL_HOST: "&load_balancer(network=<network>):percona-db:variables[lb_dns_name]"
+      MCMI_MYSQL_PORT: "@percona_port"
+      MCMI_MYSQL_DB: "@admin_cluster_database"
+      MCMI_MYSQL_USER: "@admin_cluster_database_user"
+      MCMI_MYSQL_PASSWORD: "@admin_cluster_password"
 
-  cenv-cluster:
+  mcmi-cluster:
     servers: groups.name=@admin_cluster_group
     requires:
       - percona-cluster-user
-      - cenv-app-environment
+      - mcmi-app-environment
 
-  cenv-wait:
+  mcmi-wait:
     wait_hosts: "&>server(network=@aws_networks;subnet=@aws_admin_cluster_subnets):@{admin_cluster_name}*:ip"
 
-  deploy-cenv:
+  deploy-mcmi:
     server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_cluster_subnets[0]):@{admin_cluster_name}1:id

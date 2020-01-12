@@ -7,42 +7,42 @@ profile:
     profile: aws-network
     operations: run
 
-  cenv-network:
+  mcmi-network:
     requires: base-network
     profile: aws-network
 
-  cenv-admin:
-    requires: cenv-network
+  mcmi-admin:
+    requires: mcmi-network
     profile: aws-server
-    deploy_cenv: true
+    deploy_mcmi: true
 
   percona-cluster:
-    requires: cenv-admin
+    requires: mcmi-admin
     host: "@admin_server_host_name"
     module: percona
     profile: aws-cluster
 
-  cenv-cluster:
+  mcmi-cluster:
     requires: percona-cluster
     host: "@admin_server_host_name"
     profile: aws-cluster
-    deploy_cenv: true
+    deploy_mcmi: true
 
 post_run:
-  cenv-host:
+  mcmi-host:
     command: host save
     host_fields:
       host: "@{admin_cluster_name}-@environment.@root_domain"
 
-  cenv-admin-rotate:
+  mcmi-admin-rotate:
     command: user rotate
     host: "@admin_server_host_name"
 
-  cenv-cluster-rotate:
-    requires: cenv-host
+  mcmi-cluster-rotate:
+    requires: mcmi-host
     command: user rotate
 
 post_destroy:
-  cenv-admin-host:
+  mcmi-admin-host:
     command: host rm
     host_name: "@admin_server_host_name"

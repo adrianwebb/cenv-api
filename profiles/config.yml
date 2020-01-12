@@ -2,20 +2,20 @@ config:
   root_domain: example.com
   root_domain_email: "someone@example.com"
 
-  admin_group: cenv
+  admin_group: mcmi
 
   admin_server_host_name: admin
-  admin_server_name: cenv-admin
-  admin_server_group: cenv-admin
-  admin_server_database: "%%cenv_server_database:30"
-  admin_server_database_user: "%%cenv_server_database_user:30"
-  admin_server_password: "%%cenv_server_password:30"
+  admin_server_name: mcmi-admin
+  admin_server_group: mcmi-admin
+  admin_server_database: "%%mcmi_server_database:30"
+  admin_server_database_user: "%%mcmi_server_database_user:30"
+  admin_server_password: "%%mcmi_server_password:30"
 
-  admin_cluster_name: cenv
-  admin_cluster_group: cenv-cluster
-  admin_cluster_database: "%%cenv_cluster_database:30"
-  admin_cluster_database_user: "%%cenv_cluster_database_user:30"
-  admin_cluster_password: "%%cenv_cluster_password:30"
+  admin_cluster_name: mcmi
+  admin_cluster_group: mcmi-cluster
+  admin_cluster_database: "%%mcmi_cluster_database:30"
+  admin_cluster_database_user: "%%mcmi_cluster_database_user:30"
+  admin_cluster_password: "%%mcmi_cluster_password:30"
 
   admin_subnet_cidr_prefix: 28
   admin_subnet_public_ip: true
