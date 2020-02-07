@@ -10,6 +10,7 @@ config:
   admin_server_database: "%%mcmi_server_database:30"
   admin_server_database_user: "%%mcmi_server_database_user:30"
   admin_server_password: "%%mcmi_server_password:30"
+  admin_server_redis_password: "%%mcmi_server_redis_password:30"
 
   admin_cluster_name: mcmi
   admin_cluster_group: mcmi-cluster

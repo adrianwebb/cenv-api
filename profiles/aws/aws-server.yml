@@ -53,6 +53,7 @@ post_run:
       MCMI_POSTGRES_DB: "@admin_server_database"
       MCMI_POSTGRES_USER: "@admin_server_database_user"
       MCMI_POSTGRES_PASSWORD: "@admin_server_password"
+      MCMI_REDIS_PASSWORD: "@admin_server_redis_password"
 
   mcmi-cluster:
     servers: groups.name=@admin_server_group
