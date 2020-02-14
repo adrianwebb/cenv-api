@@ -14,3 +14,8 @@ modules:
     provider: git
     remote: https://github.com/dccs-tech/mcmi-percona.git
     reference: master
+
+  redis:
+    provider: git
+    remote: https://github.com/dccs-tech/mcmi-redis.git
+    reference: master
