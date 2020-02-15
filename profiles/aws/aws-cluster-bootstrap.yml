@@ -22,8 +22,18 @@ profile:
     module: percona
     profile: aws-cluster
 
+  redis-cluster:
+    requires: mcmi-admin
+    host: "@admin_server_host_name"
+    module: redis
+    profile: aws-cluster
+    config:
+      redis_password: "@admin_cluster_redis_password"
+
   mcmi-cluster:
-    requires: percona-cluster
+    requires:
+      - percona-cluster
+      - redis-cluster
     host: "@admin_server_host_name"
     profile: aws-cluster
     deploy_mcmi: true

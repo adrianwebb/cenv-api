@@ -17,9 +17,17 @@ profile:
     module: percona
     profile: aws-cluster
 
+  redis-cluster:
+    requires: base-network
+    module: redis
+    profile: aws-cluster
+    config:
+      redis_password: "@admin_cluster_redis_password"
+
   mcmi-cluster:
     profile: aws-cluster
     deploy_mcmi: false
     requires:
       - mcmi-network
       - percona-cluster
+      - redis-cluster
