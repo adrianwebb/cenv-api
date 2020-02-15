@@ -2,6 +2,9 @@ parents:
   - module: percona
     profile: aws-config
 
+  - module: redis
+    profile: aws-config
+
   - aws-core
 
 certificate:
@@ -149,6 +152,10 @@ post_run:
       MCMI_MYSQL_DB: "@admin_cluster_database"
       MCMI_MYSQL_USER: "@admin_cluster_database_user"
       MCMI_MYSQL_PASSWORD: "@admin_cluster_password"
+      MCMI_REDIS_TYPE: sentinel
+      MCMI_REDIS_HOST: "&load_balancer(network=<network>):redis-sentinel:variables[lb_dns_name]"
+      MCMI_REDIS_PORT: "@redis_sentinel_port"
+      MCMI_REDIS_PASSWORD: "@admin_cluster_redis_password"
 
   mcmi-cluster:
     servers: groups.name=@admin_cluster_group
