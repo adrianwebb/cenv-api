@@ -4,6 +4,8 @@ config:
 
   admin_group: mcmi
 
+  admin_redis_type: redis
+
   admin_server_host_name: admin
   admin_server_name: mcmi-admin
   admin_server_group: mcmi-admin
@@ -17,6 +19,7 @@ config:
   admin_cluster_database: "%%mcmi_cluster_database:30"
   admin_cluster_database_user: "%%mcmi_cluster_database_user:30"
   admin_cluster_password: "%%mcmi_cluster_password:30"
+  admin_cluster_redis_password: "%%mcmi_cluster_redis_password:30"
 
   admin_subnet_cidr_prefix: 28
   admin_subnet_public_ip: true
@@ -27,5 +30,18 @@ config:
   admin_parallel: true
   admin_db_max_connections: 1
   admin_thread_count: 10
+  admin_worker_concurrency: 5
   admin_terraform_max_processes: 10
   admin_ansible_max_processes: 10
+
+  admin_email_host:
+  admin_email_port: 25
+  admin_email_host_user: ""
+  admin_email_host_password: ""
+  admin_email_use_tls: true
+  admin_email_use_ssl: false
+  admin_email_ssl_certfile:
+  admin_email_ssl_keyfile:
+  admin_email_timeout:
+  admin_email_subject_prefix: "[MCMI]: "
+  admin_email_use_localtime: true
