@@ -43,5 +43,5 @@ config:
   admin_email_ssl_certfile:
   admin_email_ssl_keyfile:
   admin_email_timeout:
-  admin_email_subject_prefix: "[MCMI]: "
+  admin_email_subject_prefix: "[MCMI]:"
   admin_email_use_localtime: true
