@@ -3,8 +3,6 @@ version: '3.7'
 x-mcmi: &mcmi
     image: ${MCMI_DEFAULT_RUNTIME_IMAGE}
     restart: always
-    environment:
-      MCMI_API_PORT: 5123
     env_file: .env
     depends_on:
       - data
