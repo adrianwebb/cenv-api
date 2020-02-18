@@ -31,29 +31,29 @@ profile:
     module: redis
     profile: aws-cluster
 
-  mcmi-cluster:
-    requires:
-      - percona-cluster
-      - redis-cluster
-    host: "@admin_server_host_name"
-    profile: aws-cluster
-    deploy_mcmi: true
+#   mcmi-cluster:
+#     requires:
+#       - percona-cluster
+#       - redis-cluster
+#     host: "@admin_server_host_name"
+#     profile: aws-cluster
+#     deploy_mcmi: true
 
-post_run:
-  mcmi-host:
-    command: host save
-    host_fields:
-      host: "@{admin_cluster_name}-@environment.@root_domain"
+# post_run:
+#   mcmi-host:
+#     command: host save
+#     host_fields:
+#       host: "@{admin_cluster_name}-@environment.@root_domain"
 
-  mcmi-admin-rotate:
-    command: user rotate
-    host: "@admin_server_host_name"
+#   mcmi-admin-rotate:
+#     command: user rotate
+#     host: "@admin_server_host_name"
 
-  mcmi-cluster-rotate:
-    requires: mcmi-host
-    command: user rotate
+#   mcmi-cluster-rotate:
+#     requires: mcmi-host
+#     command: user rotate
 
-post_destroy:
-  mcmi-admin-host:
-    command: host rm
-    host_name: "@admin_server_host_name"
+# post_destroy:
+#   mcmi-admin-host:
+#     command: host rm
+#     host_name: "@admin_server_host_name"
