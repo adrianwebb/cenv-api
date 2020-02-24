@@ -60,7 +60,6 @@ post_run:
       - "@aws_ubuntu_user"
 
   mcmi-wait:
-    when: "@deploy_mcmi"
     requires: mcmi-cluster
     module: cluster
     task: wait-https
