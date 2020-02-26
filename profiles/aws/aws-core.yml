@@ -24,6 +24,8 @@ post_run:
       MCMI_SECRET_KEY: "%%mcmi_secret_key:50"
       MCMI_PARALLEL: "@admin_parallel"
       MCMI_THREAD_COUNT: "@admin_thread_count"
+      MCMI_AUTO_MIGRATE_TIMEOUT: "@AUTO_MIGRATE_TIMEOUT"
+      MCMI_AUTO_MIGRATE_INTERVAL: "@AUTO_MIGRATE_INTERVAL"
       MCMI_TIME_ZONE: "@primary_timezone"
       MCMI_CORE_MODULE: "@CORE_MODULE"
       MCMI_DEFAULT_MODULES: "@>DEFAULT_MODULES"
