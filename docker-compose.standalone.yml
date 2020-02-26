@@ -9,6 +9,8 @@ x-mcmi: &mcmi
       MCMI_REDIS_HOST: tasks
       MCMI_REDIS_PORT: 6379
     env_file: .env
+    volumes:
+      - /usr/local/lib/mcmi:/usr/local/lib/mcmi
     depends_on:
       - data
       - tasks

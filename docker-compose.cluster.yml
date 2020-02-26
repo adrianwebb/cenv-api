@@ -4,6 +4,8 @@ x-mcmi: &mcmi
     image: ${MCMI_DEFAULT_RUNTIME_IMAGE}
     restart: always
     env_file: .env
+    volumes:
+      - /usr/local/lib/mcmi:/usr/local/lib/mcmi
 
 services:
   api:
