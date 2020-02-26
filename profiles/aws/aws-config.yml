@@ -22,7 +22,7 @@ config:
   aws_admin_ebs_encrypted: false
   aws_admin_data_device: /dev/xvdb
 
-  aws_admin_lb_timeout: 60
+  aws_admin_lb_timeout: 3600
   aws_admin_lb_health_path: /status
   aws_admin_lb_healthy_status: 200
   aws_admin_lb_health_check_interval: 30
