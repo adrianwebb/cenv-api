@@ -4,7 +4,7 @@ _ansible: &ansible
   roles: server-admin
   directory: ansible
   servers:
-    - name.startswith=mcmi-
+    - name.startswith=mcmi
 
 
 bootstrap:
