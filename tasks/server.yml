@@ -1,33 +1,32 @@
 
-_server: &server
+_command: &command
+  provider: remote_command
   roles: server-admin
+  servers:
+    - name.startswith=mcmi-
 
 
 environment:
-  <<: *server
-  provider: remote_command
+  <<: *command
   command: env | grep 'MCMI_' > @env_file
   options:
     env_file: ~/.env
 
 update:
-  <<: *server
-  provider: remote_command
-  command: docker image prune -fa && docker-compose rm -fs @service && docker-compose pull && docker-compose up -d
+  <<: *command
+  command: docker-compose rm -fs @service && docker-compose pull && docker-compose up -d && docker image prune -fa
   options:
-    service: api
+    service: "api scheduler worker"
 
 restart:
-  <<: *server
-  provider: remote_command
+  <<: *command
   command: docker-compose restart @service
   options:
-    service: api
+    service: "api scheduler worker"
 
 log:
-  <<: *server
-  provider: remote_command
+  <<: *command
   command: docker-compose logs --tail=@count @service
   options:
     count: 100
-    service: api
+    service: "api scheduler worker"
