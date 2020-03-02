@@ -1,7 +1,7 @@
 
 _command: &command
   provider: remote_command
-  roles: server-admin
+  roles: mcmi-admin
   servers:
     - name.startswith=mcmi
 

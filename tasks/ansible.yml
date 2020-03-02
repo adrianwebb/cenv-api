@@ -1,7 +1,7 @@
 
 _ansible: &ansible
   provider: ansible
-  roles: server-admin
+  roles: mcmi-admin
   directory: ansible
   servers:
     - name.startswith=mcmi
