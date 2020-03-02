@@ -1,8 +1,5 @@
-lib: false
-tasks: tasks
-profiles:
-  - profiles
-  - profiles/aws
+roles:
+  mcmi-admin: MCMI administrator (full privileges over the MCMI system)
 
 modules:
   cluster:
