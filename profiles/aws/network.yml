@@ -1,9 +1,11 @@
 parents:
   - module: cluster
-    profile: aws-config
+    profile: aws/config
 
-  - aws-domain
-  - aws-config
+  - module: cluster
+    profile: aws/domain
+
+  - aws/config
 
 group:
   "@admin_server_group":

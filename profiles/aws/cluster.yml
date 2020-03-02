@@ -1,11 +1,11 @@
 parents:
   - module: percona
-    profile: aws-config
+    profile: aws/config
 
   - module: redis
-    profile: aws-config
+    profile: aws/config
 
-  - aws-core
+  - aws/core
 
 certificate:
   "@admin_cluster_name":

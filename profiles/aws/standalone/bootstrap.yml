@@ -1,5 +1,5 @@
 parents:
-  - aws-config
+  - aws/config
 
 config:
   admin_server_host_name: default
@@ -7,16 +7,16 @@ config:
 profile:
   base-network:
     module: cluster
-    profile: aws-network
+    profile: aws/network
     operations: run
 
   mcmi-network:
     requires: base-network
-    profile: aws-network
+    profile: aws/network
 
   mcmi-admin:
     requires: mcmi-network
-    profile: aws-server
+    profile: aws/server
     deploy_mcmi: true
 
 post_run:

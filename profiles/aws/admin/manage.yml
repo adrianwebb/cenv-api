@@ -1,17 +1,17 @@
 parents:
-  - aws-config
+  - aws/config
 
 profile:
   base-network:
     module: cluster
-    profile: aws-network
+    profile: aws/network
     operations: run
 
   mcmi-network:
     requires: base-network
-    profile: aws-network
+    profile: aws/network
 
   mcmi-admin:
     requires: mcmi-network
-    profile: aws-server
+    profile: aws/server
     deploy_mcmi: false

@@ -1,5 +1,5 @@
 parents:
-  - aws-config
+  - aws/config
 
 config:
   redis_password: "@admin_cluster_redis_password"
@@ -7,26 +7,26 @@ config:
 profile:
   base-network:
     module: cluster
-    profile: aws-network
+    profile: aws/network
     operations: run
 
   mcmi-network:
     requires: base-network
-    profile: aws-network
+    profile: aws/network
     operations: run
 
   percona-cluster:
     requires: base-network
     module: percona
-    profile: aws-cluster
+    profile: aws/cluster
 
   redis-cluster:
     requires: base-network
     module: redis
-    profile: aws-cluster
+    profile: aws/cluster
 
   mcmi-cluster:
-    profile: aws-cluster
+    profile: aws/cluster
     deploy_mcmi: false
     requires:
       - mcmi-network
