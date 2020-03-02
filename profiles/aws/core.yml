@@ -55,7 +55,7 @@ post_run:
 
   mcmi-cluster:
     requires: mcmi-app-environment
-    task: bootstrap
+    task: mcmi
     ntp_timezone: "@primary_timezone"
     app_user: "@aws_ubuntu_user"
     docker_users:

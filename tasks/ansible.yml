@@ -7,6 +7,6 @@ _ansible: &ansible
     - name.startswith=mcmi
 
 
-bootstrap:
+mcmi:
   <<: *ansible
-  playbooks: bootstrap.yml
+  playbooks: mcmi.yml
