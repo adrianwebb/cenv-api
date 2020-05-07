@@ -65,7 +65,7 @@ post_run:
     requires: mcmi-cluster
     module: cluster
     task: wait-https
-    wait_port: "@admin_port"
+    wait_port: "@admin_command_port"
     timeout: 600
 
   deploy-mcmi:

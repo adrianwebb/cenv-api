@@ -38,7 +38,7 @@ server:
     firewalls:
       - internet
       - ssh-external
-      - admin-external
+      - admin-command-external
 
 post_run:
   mcmi-credentials:
