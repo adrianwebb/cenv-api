@@ -124,8 +124,8 @@ server:
     firewalls:
       - internet
       - ssh-external
-      - admin-command-internal
-      - admin-data-internal
+      - admin-command-external
+      - admin-data-external
 
 post_run:
   mcmi-credentials:
