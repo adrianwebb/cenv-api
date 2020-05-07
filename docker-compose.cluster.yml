@@ -3,16 +3,25 @@ version: '3.7'
 x-mcmi: &mcmi
     image: ${MCMI_DEFAULT_RUNTIME_IMAGE}
     restart: always
+    environment:
+      MCMI_COMMAND_PORT: 5123
+      MCMI_DATA_PORT: 5323
     env_file: .env
     volumes:
       - /usr/local/lib/mcmi:/usr/local/lib/mcmi
 
 services:
-  api:
+  command-api:
     << : *mcmi
-    entrypoint: mcmi-api
+    entrypoint: mcmi-command
     ports:
       - "5123:5123"
+
+  data-api:
+    << : *mcmi
+    entrypoint: mcmi-data
+    ports:
+      - "5323:5323"
 
   scheduler:
     << : *mcmi
