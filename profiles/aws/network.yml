@@ -31,7 +31,7 @@ firewall:
         to_port: "@admin_command_port"
 
   admin-command-internal:
-    requires: admin-external
+    requires: admin-command-external
     network: "@aws_networks"
     groups: "@admin_group"
     rules:
@@ -40,4 +40,26 @@ firewall:
         protocol: tcp
         from_port: "@admin_command_port"
         to_port: "@admin_command_port"
-        source_firewall: admin-external
+        source_firewall: admin-command-external
+
+  admin-data-external:
+    network: "@aws_networks"
+    groups: "@admin_group"
+    rules:
+      tcp_in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@admin_data_port"
+        to_port: "@admin_data_port"
+
+  admin-data-internal:
+    requires: admin-data-external
+    network: "@aws_networks"
+    groups: "@admin_group"
+    rules:
+      tcp_in:
+        mode: ingress
+        protocol: tcp
+        from_port: "@admin_data_port"
+        to_port: "@admin_data_port"
+        source_firewall: admin-data-external
