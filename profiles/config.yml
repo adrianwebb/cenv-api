@@ -24,7 +24,8 @@ config:
   admin_subnet_cidr_prefix: 28
   admin_subnet_public_ip: true
 
-  admin_port: 5123
+  admin_command_port: 5123
+  admin_data_port: 5323
   admin_data_dir: /var/local/data
 
   admin_parallel: true
