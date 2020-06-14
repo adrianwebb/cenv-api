@@ -46,3 +46,10 @@ config:
   admin_email_timeout:
   admin_email_subject_prefix: "[ZIMAGI]:"
   admin_email_use_localtime: true
+
+group:
+  "@admin_server_group":
+  "@admin_cluster_group":
+  "@admin_group":
+    - "@admin_server_group"
+    - "@admin_cluster_group"
