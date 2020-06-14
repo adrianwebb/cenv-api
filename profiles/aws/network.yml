@@ -7,13 +7,6 @@ parents:
 
   - aws/config
 
-group:
-  "@admin_server_group":
-  "@admin_cluster_group":
-  "@admin_group":
-    - "@admin_server_group"
-    - "@admin_cluster_group"
-
 domain:
   "@root_domain":
     keep: true
