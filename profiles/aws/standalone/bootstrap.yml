@@ -10,8 +10,17 @@ profile:
     profile: aws/network
     operations: run
 
-  zimagi-network:
+  base-nat:
     requires: base-network
+    when_not: "@admin_subnet_public_ip"
+    module: cluster
+    profile: aws/nat
+    operations: run
+
+  zimagi-network:
+    requires:
+      - base-network
+      - base-nat
     profile: aws/network
 
   zimagi-admin:
