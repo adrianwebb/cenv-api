@@ -1,14 +1,14 @@
 
 _command: &command
   provider: remote_command
-  roles: mcmi-admin
+  roles: zimagi-admin
   servers:
-    - name.startswith=mcmi
+    - name.startswith=zimagi
 
 
 environment:
   <<: *command
-  command: env | grep 'MCMI_' > @env_file
+  command: env | grep 'ZIMAGI_' > @env_file
   options:
     env_file: ~/.env
 

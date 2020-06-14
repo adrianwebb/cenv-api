@@ -116,7 +116,7 @@ server:
       - data
     groups: "@admin_cluster_group"
     volumes:
-      /usr/local/lib/mcmi:
+      /usr/local/lib/zimagi:
         type: nfs4
         location: "&{mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
         options: "@aws_efs_volume_options"
@@ -128,10 +128,10 @@ server:
       - admin-data-external
 
 post_run:
-  mcmi-credentials:
+  zimagi-credentials:
     server_search: groups.name=@admin_cluster_group
 
-  mcmi-user-environment:
+  zimagi-user-environment:
     servers: groups.name=@admin_cluster_group
 
   percona-cluster-db:
@@ -155,31 +155,31 @@ post_run:
           - "@admin_cluster_database.*:ALL"
         host: "%"
 
-  mcmi-app-environment:
+  zimagi-app-environment:
     scopes:
       network: "@aws_networks"
     servers:
       - subnet.network.name=<network>
       - groups.name=@admin_cluster_group
     env:
-      MCMI_MYSQL_HOST: "&load_balancer(network=<network>):percona-db:variables[lb_dns_name]"
-      MCMI_MYSQL_PORT: "@percona_port"
-      MCMI_MYSQL_DB: "@admin_cluster_database"
-      MCMI_MYSQL_USER: "@admin_cluster_database_user"
-      MCMI_MYSQL_PASSWORD: "@admin_cluster_password"
-      MCMI_REDIS_TYPE: sentinel
-      MCMI_REDIS_HOST: "&load_balancer(network=<network>):redis-sentinel:variables[lb_dns_name]"
-      MCMI_REDIS_PORT: "@redis_sentinel_port"
-      MCMI_REDIS_PASSWORD: "@admin_cluster_redis_password"
+      ZIMAGI_MYSQL_HOST: "&load_balancer(network=<network>):percona-db:variables[lb_dns_name]"
+      ZIMAGI_MYSQL_PORT: "@percona_port"
+      ZIMAGI_MYSQL_DB: "@admin_cluster_database"
+      ZIMAGI_MYSQL_USER: "@admin_cluster_database_user"
+      ZIMAGI_MYSQL_PASSWORD: "@admin_cluster_password"
+      ZIMAGI_REDIS_TYPE: sentinel
+      ZIMAGI_REDIS_HOST: "&load_balancer(network=<network>):redis-sentinel:variables[lb_dns_name]"
+      ZIMAGI_REDIS_PORT: "@redis_sentinel_port"
+      ZIMAGI_REDIS_PASSWORD: "@admin_cluster_redis_password"
 
-  mcmi-cluster:
+  zimagi-cluster:
     servers: groups.name=@admin_cluster_group
     requires:
       - percona-cluster-user
-      - mcmi-app-environment
+      - zimagi-app-environment
 
-  mcmi-wait:
+  zimagi-wait:
     wait_hosts: "&>server(network=@aws_networks;subnet=@aws_admin_cluster_subnets):@{admin_cluster_name}*:ip"
 
-  deploy-mcmi:
+  deploy-zimagi:
     server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_cluster_subnets[0]):@{admin_cluster_name}1:id

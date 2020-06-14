@@ -7,11 +7,11 @@ profile:
     profile: aws/network
     operations: run
 
-  mcmi-network:
+  zimagi-network:
     requires: base-network
     profile: aws/network
 
-  mcmi-admin:
-    requires: mcmi-network
+  zimagi-admin:
+    requires: zimagi-network
     profile: aws/server
-    deploy_mcmi: false
+    deploy_zimagi: false

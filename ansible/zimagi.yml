@@ -5,8 +5,8 @@
 
 - hosts: "{{ groups['all'][0::2] }}"
   roles:
-    - { role: mcmi }
+    - { role: zimagi }
 
 - hosts: "{{ groups['all'][1::2] }}"
   roles:
-    - { role: mcmi }
+    - { role: zimagi }

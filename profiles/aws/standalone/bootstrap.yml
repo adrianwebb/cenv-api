@@ -10,19 +10,19 @@ profile:
     profile: aws/network
     operations: run
 
-  mcmi-network:
+  zimagi-network:
     requires: base-network
     profile: aws/network
 
-  mcmi-admin:
-    requires: mcmi-network
+  zimagi-admin:
+    requires: zimagi-network
     profile: aws/server
-    deploy_mcmi: true
+    deploy_zimagi: true
 
 post_run:
-  mcmi-server-rotate:
+  zimagi-server-rotate:
     command: user rotate
 
 post_destroy:
-  mcmi-admin-host:
-    command: host rm
+  zimagi-admin-host:
+    command: host remove

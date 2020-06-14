@@ -1,12 +1,12 @@
 
 _ansible: &ansible
   provider: ansible
-  roles: mcmi-admin
+  roles: zimagi-admin
   directory: ansible
   servers:
-    - name.startswith=mcmi
+    - name.startswith=zimagi
 
 
-mcmi:
+zimagi:
   <<: *ansible
-  playbooks: mcmi.yml
+  playbooks: zimagi.yml

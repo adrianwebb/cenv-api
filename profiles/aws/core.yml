@@ -5,70 +5,70 @@ parents:
   - aws/config
 
 post_run:
-  mcmi-credentials:
+  zimagi-credentials:
     command: server rotate
 
-  mcmi-user-environment:
-    requires: mcmi-credentials
+  zimagi-user-environment:
+    requires: zimagi-credentials
     module: cluster
     task: user-environment
 
-  mcmi-app-environment:
-    requires: mcmi-credentials
+  zimagi-app-environment:
+    requires: zimagi-credentials
     task: environment
     env:
-      MCMI_DEFAULT_ENV_NAME: "@environment"
-      MCMI_DEFAULT_HOST_NAME: "@DEFAULT_HOST_NAME"
-      MCMI_DEFAULT_RUNTIME_REPO: "@DEFAULT_RUNTIME_REPO"
-      MCMI_DEFAULT_RUNTIME_IMAGE: "@DEFAULT_RUNTIME_IMAGE"
-      MCMI_SECRET_KEY: "%%mcmi_secret_key:50"
-      MCMI_PARALLEL: "@admin_parallel"
-      MCMI_THREAD_COUNT: "@admin_thread_count"
-      MCMI_AUTO_MIGRATE_TIMEOUT: "@AUTO_MIGRATE_TIMEOUT"
-      MCMI_AUTO_MIGRATE_INTERVAL: "@AUTO_MIGRATE_INTERVAL"
-      MCMI_TIME_ZONE: "@primary_timezone"
-      MCMI_CORE_MODULE: "@CORE_MODULE"
-      MCMI_DEFAULT_MODULES: "@>DEFAULT_MODULES"
-      MCMI_DB_PACKAGE_ALL_NAME: "@DB_PACKAGE_ALL_NAME"
-      MCMI_DB_MAX_CONNECTIONS: "@admin_db_max_connections"
-      MCMI_LOG_LEVEL: "@LOG_LEVEL"
-      MCMI_DEBUG: "@DEBUG"
-      MCMI_ALLOWED_HOSTS: "@ALLOWED_HOSTS"
-      MCMI_ADMIN_USER: "@ADMIN_USER"
-      MCMI_DEFAULT_ADMIN_TOKEN: "@DEFAULT_ADMIN_TOKEN"
-      MCMI_MUTEX_TTL_SECONDS: "@DB_MUTEX_TTL_SECONDS"
-      MCMI_REDIS_TYPE: "@admin_redis_type"
-      MCMI_EMAIL_HOST: "@admin_email_host"
-      MCMI_EMAIL_PORT: "@admin_email_port"
-      MCMI_EMAIL_HOST_USER: "@admin_email_host_user"
-      MCMI_EMAIL_HOST_PASSWORD: "@admin_email_host_password"
-      MCMI_EMAIL_USE_TLS: "@admin_email_use_tls"
-      MCMI_EMAIL_USE_SSL: "@admin_email_use_ssl"
-      MCMI_EMAIL_SSL_CERTFILE: "@admin_email_ssl_certfile"
-      MCMI_EMAIL_SSL_KEYFILE: "@admin_email_ssl_keyfile"
-      MCMI_EMAIL_TIMEOUT: "@admin_email_timeout"
-      MCMI_EMAIL_SUBJECT_PREFIX: "@admin_email_subject_prefix"
-      MCMI_EMAIL_USE_LOCALTIME: "@admin_email_use_localtime"
-      MCMI_WORKER_CONCURRENCY: "@admin_worker_concurrency"
-      MCMI_TERRAFORM_MAX_PROCESSES: "@admin_terraform_max_processes"
-      MCMI_ANSIBLE_MAX_PROCESSES: "@admin_ansible_max_processes"
+      ZIMAGI_DEFAULT_ENV_NAME: "@environment"
+      ZIMAGI_DEFAULT_HOST_NAME: "@DEFAULT_HOST_NAME"
+      ZIMAGI_DEFAULT_RUNTIME_REPO: "@DEFAULT_RUNTIME_REPO"
+      ZIMAGI_DEFAULT_RUNTIME_IMAGE: "@DEFAULT_RUNTIME_IMAGE"
+      ZIMAGI_SECRET_KEY: "%%zimagi_secret_key:50"
+      ZIMAGI_PARALLEL: "@admin_parallel"
+      ZIMAGI_THREAD_COUNT: "@admin_thread_count"
+      ZIMAGI_AUTO_MIGRATE_TIMEOUT: "@AUTO_MIGRATE_TIMEOUT"
+      ZIMAGI_AUTO_MIGRATE_INTERVAL: "@AUTO_MIGRATE_INTERVAL"
+      ZIMAGI_TIME_ZONE: "@primary_timezone"
+      ZIMAGI_CORE_MODULE: "@CORE_MODULE"
+      ZIMAGI_DEFAULT_MODULES: "@>DEFAULT_MODULES"
+      ZIMAGI_DB_PACKAGE_ALL_NAME: "@DB_PACKAGE_ALL_NAME"
+      ZIMAGI_DB_MAX_CONNECTIONS: "@admin_db_max_connections"
+      ZIMAGI_LOG_LEVEL: "@LOG_LEVEL"
+      ZIMAGI_DEBUG: "@DEBUG"
+      ZIMAGI_ALLOWED_HOSTS: "@ALLOWED_HOSTS"
+      ZIMAGI_ADMIN_USER: "@ADMIN_USER"
+      ZIMAGI_DEFAULT_ADMIN_TOKEN: "@DEFAULT_ADMIN_TOKEN"
+      ZIMAGI_MUTEX_TTL_SECONDS: "@DB_MUTEX_TTL_SECONDS"
+      ZIMAGI_REDIS_TYPE: "@admin_redis_type"
+      ZIMAGI_EMAIL_HOST: "@admin_email_host"
+      ZIMAGI_EMAIL_PORT: "@admin_email_port"
+      ZIMAGI_EMAIL_HOST_USER: "@admin_email_host_user"
+      ZIMAGI_EMAIL_HOST_PASSWORD: "@admin_email_host_password"
+      ZIMAGI_EMAIL_USE_TLS: "@admin_email_use_tls"
+      ZIMAGI_EMAIL_USE_SSL: "@admin_email_use_ssl"
+      ZIMAGI_EMAIL_SSL_CERTFILE: "@admin_email_ssl_certfile"
+      ZIMAGI_EMAIL_SSL_KEYFILE: "@admin_email_ssl_keyfile"
+      ZIMAGI_EMAIL_TIMEOUT: "@admin_email_timeout"
+      ZIMAGI_EMAIL_SUBJECT_PREFIX: "@admin_email_subject_prefix"
+      ZIMAGI_EMAIL_USE_LOCALTIME: "@admin_email_use_localtime"
+      ZIMAGI_WORKER_CONCURRENCY: "@admin_worker_concurrency"
+      ZIMAGI_TERRAFORM_MAX_PROCESSES: "@admin_terraform_max_processes"
+      ZIMAGI_ANSIBLE_MAX_PROCESSES: "@admin_ansible_max_processes"
 
-  mcmi-cluster:
-    requires: mcmi-app-environment
-    task: mcmi
+  zimagi-cluster:
+    requires: zimagi-app-environment
+    task: zimagi
     ntp_timezone: "@primary_timezone"
     app_user: "@aws_ubuntu_user"
     docker_users:
       - "@aws_ubuntu_user"
 
-  mcmi-wait:
-    requires: mcmi-cluster
+  zimagi-wait:
+    requires: zimagi-cluster
     module: cluster
     task: wait-https
     wait_port: "@admin_command_port"
     timeout: 600
 
-  deploy-mcmi:
-    when: "@deploy_mcmi"
-    requires: mcmi-wait
+  deploy-zimagi:
+    when: "@deploy_zimagi"
+    requires: zimagi-wait
     command: deploy

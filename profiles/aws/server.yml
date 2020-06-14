@@ -41,28 +41,28 @@ server:
       - admin-command-external
 
 post_run:
-  mcmi-credentials:
+  zimagi-credentials:
     server_search: groups.name=@admin_server_group
 
-  mcmi-user-environment:
+  zimagi-user-environment:
     servers: groups.name=@admin_server_group
 
-  mcmi-app-environment:
+  zimagi-app-environment:
     servers: groups.name=@admin_server_group
     env:
-      MCMI_POSTGRES_DB: "@admin_server_database"
-      MCMI_POSTGRES_USER: "@admin_server_database_user"
-      MCMI_POSTGRES_PASSWORD: "@admin_server_password"
-      MCMI_REDIS_PASSWORD: "@admin_server_redis_password"
+      ZIMAGI_POSTGRES_DB: "@admin_server_database"
+      ZIMAGI_POSTGRES_USER: "@admin_server_database_user"
+      ZIMAGI_POSTGRES_PASSWORD: "@admin_server_password"
+      ZIMAGI_REDIS_PASSWORD: "@admin_server_redis_password"
 
-  mcmi-cluster:
+  zimagi-cluster:
     servers: groups.name=@admin_server_group
-    remote_docker_compose: https://raw.githubusercontent.com/dccs-tech/mcmi-api/master/docker-compose.standalone.yml
+    remote_docker_compose: https://raw.githubusercontent.com/dccs-tech/zimagi-host/master/docker-compose.standalone.yml
 
-  mcmi-wait:
+  zimagi-wait:
     wait_hosts: "&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:ip"
 
-  deploy-mcmi:
+  deploy-zimagi:
     server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:id
     destination: "@{admin_server_name}.@root_domain"
     destination_name: "@admin_server_host_name"

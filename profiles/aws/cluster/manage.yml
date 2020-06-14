@@ -10,7 +10,7 @@ profile:
     profile: aws/network
     operations: run
 
-  mcmi-network:
+  zimagi-network:
     requires: base-network
     profile: aws/network
     operations: run
@@ -25,10 +25,10 @@ profile:
     module: redis
     profile: aws/cluster
 
-  mcmi-cluster:
+  zimagi-cluster:
     profile: aws/cluster
-    deploy_mcmi: false
+    deploy_zimagi: false
     requires:
-      - mcmi-network
+      - zimagi-network
       - percona-cluster
       - redis-cluster
