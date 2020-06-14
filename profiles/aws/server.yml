@@ -1,13 +1,16 @@
 parents:
   - aws/core
 
+config:
+  ssh_firewall: "?> @admin_subnet_public_ip ? 'ssh-external' | 'ssh-internal'"
+
 subnet:
   "@aws_admin_subnet":
     network: "@aws_networks[0]"
     cidr_prefix: "@admin_subnet_cidr_prefix"
     zone_suffix: a
     use_public_ip: "@admin_subnet_public_ip"
-    nat_subnet: nat-a
+    nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-a' | None"
     groups: "@admin_server_group"
 
 server:
@@ -37,7 +40,7 @@ server:
         ebs_encrypted: "@aws_admin_ebs_encrypted"
     firewalls:
       - internet
-      - ssh-external
+      - "@ssh_firewall"
       - admin-command-external
 
 post_run:
