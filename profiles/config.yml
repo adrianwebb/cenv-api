@@ -2,6 +2,8 @@ config:
   root_domain: example.com
   root_domain_email: "someone@example.com"
 
+  admin_user: "@CLI_ADMIN_USER"
+  admin_default_token: "@CLI_DEFAULT_ADMIN_TOKEN"
   admin_group: zimagi
 
   admin_redis_type: redis
@@ -13,6 +15,8 @@ config:
   admin_server_database_user: "%%zimagi_server_database_user:30"
   admin_server_password: "%%zimagi_server_password:30"
   admin_server_redis_password: "%%zimagi_server_redis_password:30"
+  admin_server_allowed_hosts:
+    - "*"
 
   admin_cluster_name: zimagi
   admin_cluster_group: zimagi-cluster
@@ -20,6 +24,8 @@ config:
   admin_cluster_database_user: "%%zimagi_cluster_database_user:30"
   admin_cluster_password: "%%zimagi_cluster_password:30"
   admin_cluster_redis_password: "%%zimagi_cluster_redis_password:30"
+  admin_cluster_allowed_hosts:
+    - "*"
 
   admin_subnet_cidr_prefix: 28
   admin_subnet_public_ip: true
@@ -34,6 +40,15 @@ config:
   admin_worker_concurrency: 5
   admin_terraform_max_processes: 10
   admin_ansible_max_processes: 10
+  admin_auto_migrate_timeout: 300
+  admin_auto_migrate_interval: 9000
+  admin_mutex_ttl_seconds: 5
+  admin_log_level: warning
+  admin_debug: false
+
+  admin_core_module: "@CLI_CORE_MODULE"
+  admin_default_modules: "@>CLI_DEFAULT_MODULES"
+  admin_db_package_all_name: "@CLI_DB_PACKAGE_ALL_NAME"
 
   admin_email_host:
   admin_email_port: 25
