@@ -42,6 +42,7 @@ server:
       - internet
       - "@ssh_firewall"
       - admin-command-external
+      - admin-data-external
 
 post_run:
   zimagi-credentials:
