@@ -7,6 +7,9 @@ parents:
 
   - aws/core
 
+config:
+  ssh_firewall: "?> @admin_subnet_public_ip ? 'ssh-external' | 'ssh-internal'"
+
 certificate:
   "@admin_cluster_name":
     provider: aws
@@ -21,7 +24,7 @@ subnet:
     cidr_prefix: "@admin_subnet_cidr_prefix"
     zone_suffix: a
     use_public_ip: "@admin_subnet_public_ip"
-    nat_subnet: nat-a
+    nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-a' | None"
     groups: "@admin_cluster_group"
 
   admin-b:
@@ -30,7 +33,7 @@ subnet:
     cidr_prefix: "@admin_subnet_cidr_prefix"
     zone_suffix: b
     use_public_ip: "@admin_subnet_public_ip"
-    nat_subnet: nat-b
+    nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-b' | None"
     groups: "@admin_cluster_group"
 
   admin-c:
@@ -39,7 +42,7 @@ subnet:
     cidr_prefix: "@admin_subnet_cidr_prefix"
     zone_suffix: c
     use_public_ip: "@admin_subnet_public_ip"
-    nat_subnet: nat-c
+    nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-c' | None"
     groups: "@admin_cluster_group"
 
 storage:
@@ -123,7 +126,7 @@ server:
         mode: "0770"
     firewalls:
       - internet
-      - ssh-external
+      - "@ssh_firewall"
       - admin-command-external
       - admin-data-external
 
