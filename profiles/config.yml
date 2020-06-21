@@ -42,7 +42,7 @@ config:
   admin_ansible_max_processes: 10
   admin_auto_migrate_timeout: 300
   admin_auto_migrate_interval: 9000
-  admin_mutex_ttl_seconds: 5
+  admin_mutex_ttl_seconds: 300
   admin_log_level: warning
   admin_debug: false
 
