@@ -35,7 +35,7 @@ config:
   admin_data_dir: /var/local/data
 
   admin_parallel: true
-  admin_db_max_connections: 1
+  admin_db_max_connections: 10
   admin_thread_count: 10
   admin_worker_concurrency: 5
   admin_terraform_max_processes: 10
