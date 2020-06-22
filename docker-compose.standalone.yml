@@ -12,6 +12,7 @@ x-zimagi: &zimagi
       ZIMAGI_REDIS_PORT: 6379
     env_file: .env
     volumes:
+      - /var/local/zimagi:/var/local/zimagi
       - /usr/local/lib/zimagi:/usr/local/lib/zimagi
     depends_on:
       - data
