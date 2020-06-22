@@ -119,7 +119,7 @@ server:
       - data
     groups: "@admin_cluster_group"
     volumes:
-      /usr/local/lib/zimagi:
+      "@admin_lib_dir":
         type: nfs4
         location: "&{mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
         options: "@aws_efs_volume_options"

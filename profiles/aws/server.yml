@@ -35,7 +35,15 @@ server:
         type: ext4
         location: "@aws_admin_data_device"
         ebs_type: "@aws_admin_ebs_type"
-        ebs_size: "@aws_admin_ebs_size"
+        ebs_size: "@aws_admin_ebs_data_size"
+        ebs_iops: "@aws_admin_ebs_iops"
+        ebs_encrypted: "@aws_admin_ebs_encrypted"
+      "@admin_lib_dir":
+        provider: aws_ebs
+        type: ext4
+        location: "@aws_admin_lib_device"
+        ebs_type: "@aws_admin_ebs_type"
+        ebs_size: "@aws_admin_ebs_lib_size"
         ebs_iops: "@aws_admin_ebs_iops"
         ebs_encrypted: "@aws_admin_ebs_encrypted"
     firewalls:
