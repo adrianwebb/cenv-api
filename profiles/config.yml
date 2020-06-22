@@ -32,7 +32,8 @@ config:
 
   admin_command_port: 5123
   admin_data_port: 5323
-  admin_data_dir: /var/local/data
+  admin_data_dir: /var/local/zimagi
+  admin_lib_dir: /usr/local/lib/zimagi
 
   admin_parallel: "@CLI_PARALLEL"
   admin_db_max_connections: 10

@@ -17,10 +17,12 @@ config:
   aws_admin_ebs_optimized: false
 
   aws_admin_ebs_type: gp2
-  aws_admin_ebs_size: 20
+  aws_admin_ebs_data_size: 10
+  aws_admin_ebs_lib_size: 20
   aws_admin_ebs_iops: null
   aws_admin_ebs_encrypted: false
   aws_admin_data_device: /dev/xvdb
+  aws_admin_lib_device: /dev/xvdc
 
   aws_admin_lb_timeout: 3600
   aws_admin_lb_health_path: /status
