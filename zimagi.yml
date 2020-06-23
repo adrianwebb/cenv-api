@@ -1,17 +1,11 @@
 name: host
 
 modules:
-  cluster:
-    provider: git
-    remote: https://github.com/dccs-tech/zimagi-cluster.git
+  - remote: https://github.com/dccs-tech/zimagi-cluster.git
     reference: master
 
-  percona:
-    provider: git
-    remote: https://github.com/dccs-tech/zimagi-percona.git
+  - remote: https://github.com/dccs-tech/zimagi-percona.git
     reference: master
 
-  redis:
-    provider: git
-    remote: https://github.com/dccs-tech/zimagi-redis.git
+  - remote: https://github.com/dccs-tech/zimagi-redis.git
     reference: master
