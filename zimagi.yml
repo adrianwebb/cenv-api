@@ -1,3 +1,4 @@
+name: host
 modules:
   cluster:
     provider: git
