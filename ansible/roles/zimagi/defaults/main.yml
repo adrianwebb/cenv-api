@@ -1,4 +1,3 @@
----
 # Application user
 app_user: ubuntu
 app_home: "/home/{{ app_user }}"

@@ -1,11 +1,11 @@
 name: host
 
 modules:
-  - remote: https://github.com/dccs-tech/zimagi-cluster.git
-    reference: master
+    - remote: https://github.com/dccs-tech/zimagi-cluster.git
+      reference: master
 
-  - remote: https://github.com/dccs-tech/zimagi-percona.git
-    reference: master
+    - remote: https://github.com/dccs-tech/zimagi-percona.git
+      reference: master
 
-  - remote: https://github.com/dccs-tech/zimagi-redis.git
-    reference: master
+    - remote: https://github.com/dccs-tech/zimagi-redis.git
+      reference: master

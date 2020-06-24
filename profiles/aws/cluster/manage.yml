@@ -1,42 +1,42 @@
 parents:
-  - aws/config
+    - aws/config
 
 config:
-  redis_password: "@admin_cluster_redis_password"
+    redis_password: "@admin_cluster_redis_password"
 
 profile:
-  base-network:
-    module: cluster
-    profile: aws/network
-    operations: run
+    base-network:
+        module: cluster
+        profile: aws/network
+        operations: run
 
-  base-nat:
-    requires: base-network
-    when_not: "@admin_subnet_public_ip"
-    module: cluster
-    profile: aws/nat
-    operations: run
+    base-nat:
+        requires: base-network
+        when_not: "@admin_subnet_public_ip"
+        module: cluster
+        profile: aws/nat
+        operations: run
 
-  zimagi-network:
-    requires:
-      - base-network
-      - base-nat
-    profile: aws/network
+    zimagi-network:
+        requires:
+            - base-network
+            - base-nat
+        profile: aws/network
 
-  percona-cluster:
-    requires: base-network
-    module: percona
-    profile: aws/cluster
+    percona-cluster:
+        requires: base-network
+        module: percona
+        profile: aws/cluster
 
-  redis-cluster:
-    requires: base-network
-    module: redis
-    profile: aws/cluster
+    redis-cluster:
+        requires: base-network
+        module: redis
+        profile: aws/cluster
 
-  zimagi-cluster:
-    profile: aws/cluster
-    deploy_zimagi: false
-    requires:
-      - zimagi-network
-      - percona-cluster
-      - redis-cluster
+    zimagi-cluster:
+        profile: aws/cluster
+        deploy_zimagi: false
+        requires:
+            - zimagi-network
+            - percona-cluster
+            - redis-cluster

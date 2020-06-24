@@ -1,68 +1,68 @@
 parents:
-  - aws/config
+    - aws/config
 
 config:
-  redis_password: "@admin_cluster_redis_password"
+    redis_password: "@admin_cluster_redis_password"
 
 profile:
-  base-network:
-    module: cluster
-    profile: aws/network
-    operations: run
+    base-network:
+        module: cluster
+        profile: aws/network
+        operations: run
 
-  base-nat:
-    requires: base-network
-    when_not: "@admin_subnet_public_ip"
-    module: cluster
-    profile: aws/nat
-    operations: run
+    base-nat:
+        requires: base-network
+        when_not: "@admin_subnet_public_ip"
+        module: cluster
+        profile: aws/nat
+        operations: run
 
-  zimagi-network:
-    requires:
-      - base-network
-      - base-nat
-    profile: aws/network
+    zimagi-network:
+        requires:
+            - base-network
+            - base-nat
+        profile: aws/network
 
-  zimagi-admin:
-    requires: zimagi-network
-    profile: aws/server
-    deploy_zimagi: true
+    zimagi-admin:
+        requires: zimagi-network
+        profile: aws/server
+        deploy_zimagi: true
 
-  percona-cluster:
-    requires: zimagi-admin
-    host: "@admin_server_host_name"
-    module: percona
-    profile: aws/cluster
+    percona-cluster:
+        requires: zimagi-admin
+        host: "@admin_server_host_name"
+        module: percona
+        profile: aws/cluster
 
-  redis-cluster:
-    requires: zimagi-admin
-    host: "@admin_server_host_name"
-    module: redis
-    profile: aws/cluster
+    redis-cluster:
+        requires: zimagi-admin
+        host: "@admin_server_host_name"
+        module: redis
+        profile: aws/cluster
 
-  zimagi-cluster:
-    requires:
-      - percona-cluster
-      - redis-cluster
-    host: "@admin_server_host_name"
-    profile: aws/cluster
-    deploy_zimagi: true
+    zimagi-cluster:
+        requires:
+            - percona-cluster
+            - redis-cluster
+        host: "@admin_server_host_name"
+        profile: aws/cluster
+        deploy_zimagi: true
 
 post_run:
-  zimagi-host:
-    command: host save
-    host_fields:
-      host: "@{admin_cluster_name}.@root_domain"
+    zimagi-host:
+        command: host save
+        host_fields:
+            host: "@{admin_cluster_name}.@root_domain"
 
-  zimagi-admin-rotate:
-    command: user rotate
-    host: "@admin_server_host_name"
+    zimagi-admin-rotate:
+        command: user rotate
+        host: "@admin_server_host_name"
 
-  zimagi-cluster-rotate:
-    requires: zimagi-host
-    command: user rotate
+    zimagi-cluster-rotate:
+        requires: zimagi-host
+        command: user rotate
 
 post_destroy:
-  zimagi-admin-host:
-    command: host remove
-    host_name: "@admin_server_host_name"
+    zimagi-admin-host:
+        command: host remove
+        host_name: "@admin_server_host_name"

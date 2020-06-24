@@ -1,73 +1,73 @@
 parents:
-  - module: cluster
-    profile: aws/config
+    - module: cluster
+      profile: aws/config
 
-  - aws/config
+    - aws/config
 
 post_run:
-  zimagi-credentials:
-    command: server rotate
+    zimagi-credentials:
+        command: server rotate
 
-  zimagi-user-environment:
-    requires: zimagi-credentials
-    module: cluster
-    task: user-environment
+    zimagi-user-environment:
+        requires: zimagi-credentials
+        module: cluster
+        task: user-environment
 
-  zimagi-app-environment:
-    requires: zimagi-credentials
-    task: environment
-    env:
-      ZIMAGI_DEFAULT_ENV_NAME: "@environment"
-      ZIMAGI_DEFAULT_HOST_NAME: "@CLI_DEFAULT_HOST_NAME"
-      ZIMAGI_DEFAULT_RUNTIME_REPO: "@CLI_DEFAULT_RUNTIME_REPO"
-      ZIMAGI_DEFAULT_RUNTIME_IMAGE: "@CLI_DEFAULT_RUNTIME_IMAGE"
-      ZIMAGI_SECRET_KEY: "%%zimagi_secret_key:50"
-      ZIMAGI_PARALLEL: "@admin_parallel"
-      ZIMAGI_THREAD_COUNT: "@admin_thread_count"
-      ZIMAGI_AUTO_MIGRATE_TIMEOUT: "@admin_auto_migrate_timeout"
-      ZIMAGI_AUTO_MIGRATE_INTERVAL: "@admin_auto_migrate_interval"
-      ZIMAGI_TIME_ZONE: "@primary_timezone"
-      ZIMAGI_CORE_MODULE: "@admin_core_module"
-      ZIMAGI_DEFAULT_MODULES: "@admin_default_modules"
-      ZIMAGI_DB_PACKAGE_ALL_NAME: "@admin_db_package_all_name"
-      ZIMAGI_DB_MAX_CONNECTIONS: "@admin_db_max_connections"
-      ZIMAGI_LOG_LEVEL: "@admin_log_level"
-      ZIMAGI_DEBUG: "@admin_debug"
-      ZIMAGI_ADMIN_USER: "@admin_user"
-      ZIMAGI_DEFAULT_ADMIN_TOKEN: "@admin_default_token"
-      ZIMAGI_MUTEX_TTL_SECONDS: "@admin_mutex_ttl_seconds"
-      ZIMAGI_REDIS_TYPE: "@admin_redis_type"
-      ZIMAGI_EMAIL_HOST: "@admin_email_host"
-      ZIMAGI_EMAIL_PORT: "@admin_email_port"
-      ZIMAGI_EMAIL_HOST_USER: "@admin_email_host_user"
-      ZIMAGI_EMAIL_HOST_PASSWORD: "@admin_email_host_password"
-      ZIMAGI_EMAIL_USE_TLS: "@admin_email_use_tls"
-      ZIMAGI_EMAIL_USE_SSL: "@admin_email_use_ssl"
-      ZIMAGI_EMAIL_SSL_CERTFILE: "@admin_email_ssl_certfile"
-      ZIMAGI_EMAIL_SSL_KEYFILE: "@admin_email_ssl_keyfile"
-      ZIMAGI_EMAIL_TIMEOUT: "@admin_email_timeout"
-      ZIMAGI_EMAIL_SUBJECT_PREFIX: "@admin_email_subject_prefix"
-      ZIMAGI_EMAIL_USE_LOCALTIME: "@admin_email_use_localtime"
-      ZIMAGI_WORKER_CONCURRENCY: "@admin_worker_concurrency"
-      ZIMAGI_TERRAFORM_MAX_PROCESSES: "@admin_terraform_max_processes"
-      ZIMAGI_ANSIBLE_MAX_PROCESSES: "@admin_ansible_max_processes"
+    zimagi-app-environment:
+        requires: zimagi-credentials
+        task: environment
+        env:
+            ZIMAGI_DEFAULT_ENV_NAME: "@environment"
+            ZIMAGI_DEFAULT_HOST_NAME: "@CLI_DEFAULT_HOST_NAME"
+            ZIMAGI_DEFAULT_RUNTIME_REPO: "@CLI_DEFAULT_RUNTIME_REPO"
+            ZIMAGI_DEFAULT_RUNTIME_IMAGE: "@CLI_DEFAULT_RUNTIME_IMAGE"
+            ZIMAGI_SECRET_KEY: "%%zimagi_secret_key:50"
+            ZIMAGI_PARALLEL: "@admin_parallel"
+            ZIMAGI_THREAD_COUNT: "@admin_thread_count"
+            ZIMAGI_AUTO_MIGRATE_TIMEOUT: "@admin_auto_migrate_timeout"
+            ZIMAGI_AUTO_MIGRATE_INTERVAL: "@admin_auto_migrate_interval"
+            ZIMAGI_TIME_ZONE: "@primary_timezone"
+            ZIMAGI_CORE_MODULE: "@admin_core_module"
+            ZIMAGI_DEFAULT_MODULES: "@admin_default_modules"
+            ZIMAGI_DB_PACKAGE_ALL_NAME: "@admin_db_package_all_name"
+            ZIMAGI_DB_MAX_CONNECTIONS: "@admin_db_max_connections"
+            ZIMAGI_LOG_LEVEL: "@admin_log_level"
+            ZIMAGI_DEBUG: "@admin_debug"
+            ZIMAGI_ADMIN_USER: "@admin_user"
+            ZIMAGI_DEFAULT_ADMIN_TOKEN: "@admin_default_token"
+            ZIMAGI_MUTEX_TTL_SECONDS: "@admin_mutex_ttl_seconds"
+            ZIMAGI_REDIS_TYPE: "@admin_redis_type"
+            ZIMAGI_EMAIL_HOST: "@admin_email_host"
+            ZIMAGI_EMAIL_PORT: "@admin_email_port"
+            ZIMAGI_EMAIL_HOST_USER: "@admin_email_host_user"
+            ZIMAGI_EMAIL_HOST_PASSWORD: "@admin_email_host_password"
+            ZIMAGI_EMAIL_USE_TLS: "@admin_email_use_tls"
+            ZIMAGI_EMAIL_USE_SSL: "@admin_email_use_ssl"
+            ZIMAGI_EMAIL_SSL_CERTFILE: "@admin_email_ssl_certfile"
+            ZIMAGI_EMAIL_SSL_KEYFILE: "@admin_email_ssl_keyfile"
+            ZIMAGI_EMAIL_TIMEOUT: "@admin_email_timeout"
+            ZIMAGI_EMAIL_SUBJECT_PREFIX: "@admin_email_subject_prefix"
+            ZIMAGI_EMAIL_USE_LOCALTIME: "@admin_email_use_localtime"
+            ZIMAGI_WORKER_CONCURRENCY: "@admin_worker_concurrency"
+            ZIMAGI_TERRAFORM_MAX_PROCESSES: "@admin_terraform_max_processes"
+            ZIMAGI_ANSIBLE_MAX_PROCESSES: "@admin_ansible_max_processes"
 
-  zimagi-cluster:
-    requires: zimagi-app-environment
-    task: zimagi
-    ntp_timezone: "@primary_timezone"
-    app_user: "@aws_ubuntu_user"
-    docker_users:
-      - "@aws_ubuntu_user"
+    zimagi-cluster:
+        requires: zimagi-app-environment
+        task: zimagi
+        ntp_timezone: "@primary_timezone"
+        app_user: "@aws_ubuntu_user"
+        docker_users:
+            - "@aws_ubuntu_user"
 
-  zimagi-wait:
-    requires: zimagi-cluster
-    module: cluster
-    task: wait-https
-    wait_port: "@admin_command_port"
-    timeout: 600
+    zimagi-wait:
+        requires: zimagi-cluster
+        module: cluster
+        task: wait-https
+        wait_port: "@admin_command_port"
+        timeout: 600
 
-  deploy-zimagi:
-    when: "@deploy_zimagi"
-    requires: zimagi-wait
-    command: deploy
+    deploy-zimagi:
+        when: "@deploy_zimagi"
+        requires: zimagi-wait
+        command: deploy

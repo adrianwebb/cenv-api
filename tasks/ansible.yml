@@ -1,12 +1,10 @@
-
 _ansible: &ansible
-  provider: ansible
-  roles: zimagi-admin
-  directory: ansible
-  servers:
-    - name.startswith=zimagi
-
+    provider: ansible
+    roles: zimagi-admin
+    directory: ansible
+    servers:
+        - name.startswith=zimagi
 
 zimagi:
-  <<: *ansible
-  playbooks: zimagi.yml
+    <<: *ansible
+    playbooks: zimagi.yml

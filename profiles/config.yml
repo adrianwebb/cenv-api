@@ -1,71 +1,71 @@
 config:
-  root_domain: example.com
-  root_domain_email: "someone@example.com"
+    root_domain: example.com
+    root_domain_email: "someone@example.com"
 
-  admin_user: "@CLI_ADMIN_USER"
-  admin_default_token: "@CLI_DEFAULT_ADMIN_TOKEN"
-  admin_group: zimagi
+    admin_user: "@CLI_ADMIN_USER"
+    admin_default_token: "@CLI_DEFAULT_ADMIN_TOKEN"
+    admin_group: zimagi
 
-  admin_redis_type: redis
+    admin_redis_type: redis
 
-  admin_server_host_name: admin
-  admin_server_name: zimagi-gateway
-  admin_server_group: zimagi-gateway
-  admin_server_database: "%%zimagi_server_database:30"
-  admin_server_database_user: "%%zimagi_server_database_user:30"
-  admin_server_password: "%%zimagi_server_password:30"
-  admin_server_redis_password: "%%zimagi_server_redis_password:30"
-  admin_server_allowed_hosts:
-    - "*"
+    admin_server_host_name: admin
+    admin_server_name: zimagi-gateway
+    admin_server_group: zimagi-gateway
+    admin_server_database: "%%zimagi_server_database:30"
+    admin_server_database_user: "%%zimagi_server_database_user:30"
+    admin_server_password: "%%zimagi_server_password:30"
+    admin_server_redis_password: "%%zimagi_server_redis_password:30"
+    admin_server_allowed_hosts:
+        - "*"
 
-  admin_cluster_name: zimagi
-  admin_cluster_group: zimagi-cluster
-  admin_cluster_database: "%%zimagi_cluster_database:30"
-  admin_cluster_database_user: "%%zimagi_cluster_database_user:30"
-  admin_cluster_password: "%%zimagi_cluster_password:30"
-  admin_cluster_redis_password: "%%zimagi_cluster_redis_password:30"
-  admin_cluster_allowed_hosts:
-    - "*"
+    admin_cluster_name: zimagi
+    admin_cluster_group: zimagi-cluster
+    admin_cluster_database: "%%zimagi_cluster_database:30"
+    admin_cluster_database_user: "%%zimagi_cluster_database_user:30"
+    admin_cluster_password: "%%zimagi_cluster_password:30"
+    admin_cluster_redis_password: "%%zimagi_cluster_redis_password:30"
+    admin_cluster_allowed_hosts:
+        - "*"
 
-  admin_subnet_cidr_prefix: 28
-  admin_subnet_public_ip: true
+    admin_subnet_cidr_prefix: 28
+    admin_subnet_public_ip: true
 
-  admin_command_port: 5123
-  admin_data_port: 5323
-  admin_data_dir: /var/local/zimagi
-  admin_lib_dir: /usr/local/lib/zimagi
+    admin_command_port: 5123
+    admin_data_port: 5323
+    admin_data_dir: /var/local/zimagi
+    admin_lib_dir: /usr/local/lib/zimagi
 
-  admin_parallel: "@CLI_PARALLEL"
-  admin_db_max_connections: 10
-  admin_thread_count: 10
-  admin_worker_concurrency: 5
-  admin_terraform_max_processes: 10
-  admin_ansible_max_processes: 10
-  admin_auto_migrate_timeout: 300
-  admin_auto_migrate_interval: 9000
-  admin_mutex_ttl_seconds: 300
-  admin_log_level: "@CLI_LOG_LEVEL"
-  admin_debug: "@CLI_DEBUG"
+    admin_parallel: "@CLI_PARALLEL"
+    admin_db_max_connections: 10
+    admin_thread_count: 10
+    admin_worker_concurrency: 5
+    admin_terraform_max_processes: 10
+    admin_ansible_max_processes: 10
+    admin_auto_migrate_timeout: 300
+    admin_auto_migrate_interval: 9000
+    admin_mutex_ttl_seconds: 300
+    admin_log_level: "@CLI_LOG_LEVEL"
+    admin_debug: "@CLI_DEBUG"
 
-  admin_core_module: "@CLI_CORE_MODULE"
-  admin_default_modules: "@>CLI_DEFAULT_MODULES"
-  admin_db_package_all_name: "@CLI_DB_PACKAGE_ALL_NAME"
+    admin_core_module: "@CLI_CORE_MODULE"
+    admin_default_modules: "@>CLI_DEFAULT_MODULES"
+    admin_db_package_all_name: "@CLI_DB_PACKAGE_ALL_NAME"
 
-  admin_email_host:
-  admin_email_port: 25
-  admin_email_host_user: ""
-  admin_email_host_password: ""
-  admin_email_use_tls: true
-  admin_email_use_ssl: false
-  admin_email_ssl_certfile:
-  admin_email_ssl_keyfile:
-  admin_email_timeout:
-  admin_email_subject_prefix: "[ZIMAGI]:"
-  admin_email_use_localtime: true
+    admin_email_host:
+    admin_email_port: 25
+    admin_email_host_user: ""
+    admin_email_host_password: ""
+    admin_email_use_tls: true
+    admin_email_use_ssl: false
+    admin_email_ssl_certfile:
+    admin_email_ssl_keyfile:
+    admin_email_timeout:
+    admin_email_subject_prefix: "[ZIMAGI]:"
+    admin_email_use_localtime: true
 
 group:
-  "@admin_server_group":
-  "@admin_cluster_group":
-  "@admin_group":
-    - "@admin_server_group"
-    - "@admin_cluster_group"
+    "@admin_server_group":
+    "@admin_cluster_group":
+    "@admin_group":
+        - "@admin_server_group"
+        - "@admin_cluster_group"

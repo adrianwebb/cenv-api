@@ -1,26 +1,26 @@
 parents:
-  - aws/config
+    - aws/config
 
 profile:
-  base-network:
-    module: cluster
-    profile: aws/network
-    operations: run
+    base-network:
+        module: cluster
+        profile: aws/network
+        operations: run
 
-  base-nat:
-    requires: base-network
-    when_not: "@admin_subnet_public_ip"
-    module: cluster
-    profile: aws/nat
-    operations: run
+    base-nat:
+        requires: base-network
+        when_not: "@admin_subnet_public_ip"
+        module: cluster
+        profile: aws/nat
+        operations: run
 
-  zimagi-network:
-    requires:
-      - base-network
-      - base-nat
-    profile: aws/network
+    zimagi-network:
+        requires:
+            - base-network
+            - base-nat
+        profile: aws/network
 
-  zimagi-admin:
-    requires: zimagi-network
-    profile: aws/server
-    deploy_zimagi: false
+    zimagi-admin:
+        requires: zimagi-network
+        profile: aws/server
+        deploy_zimagi: false

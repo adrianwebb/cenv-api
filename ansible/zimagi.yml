@@ -1,12 +1,12 @@
 - hosts: all
   roles:
-    - { role: geerlingguy.docker }
-    - { role: geerlingguy.ntp }
+      - { role: geerlingguy.docker }
+      - { role: geerlingguy.ntp }
 
 - hosts: "{{ groups['all'][0::2] }}"
   roles:
-    - { role: zimagi }
+      - { role: zimagi }
 
 - hosts: "{{ groups['all'][1::2] }}"
   roles:
-    - { role: zimagi }
+      - { role: zimagi }

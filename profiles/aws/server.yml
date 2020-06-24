@@ -1,81 +1,81 @@
 parents:
-  - aws/core
+    - aws/core
 
 config:
-  ssh_firewall: "?> @admin_subnet_public_ip ? 'ssh-external' | 'ssh-internal'"
+    ssh_firewall: "?> @admin_subnet_public_ip ? 'ssh-external' | 'ssh-internal'"
 
 subnet:
-  "@aws_admin_subnet":
-    network: "@aws_networks[0]"
-    cidr_prefix: "@admin_subnet_cidr_prefix"
-    zone_suffix: a
-    use_public_ip: "@admin_subnet_public_ip"
-    nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-a' | None"
-    groups: "@admin_server_group"
+    "@aws_admin_subnet":
+        network: "@aws_networks[0]"
+        cidr_prefix: "@admin_subnet_cidr_prefix"
+        zone_suffix: a
+        use_public_ip: "@admin_subnet_public_ip"
+        nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-a' | None"
+        groups: "@admin_server_group"
 
 server:
-  "@admin_server_name":
-    count: 1
-    provider: ec2
-    network: "@aws_networks[0]"
-    subnet: "@aws_admin_subnet"
-    image: "@aws_ubuntu_image[<network>]"
-    ssh_port: "@ssh_port"
-    user: "@aws_ubuntu_user"
-    machine: "@aws_admin_machine"
-    tenancy: "@aws_admin_tenancy"
-    monitoring: "@aws_admin_monitoring"
-    ebs_optimized: "@aws_admin_ebs_optimized"
-    groups: "@admin_server_group"
-    domain: "@root_domain"
-    domain_name: "@{admin_server_name}"
-    volumes:
-      "@admin_data_dir":
-        provider: aws_ebs
-        type: ext4
-        location: "@aws_admin_data_device"
-        ebs_type: "@aws_admin_ebs_type"
-        ebs_size: "@aws_admin_ebs_data_size"
-        ebs_iops: "@aws_admin_ebs_iops"
-        ebs_encrypted: "@aws_admin_ebs_encrypted"
-      "@admin_lib_dir":
-        provider: aws_ebs
-        type: ext4
-        location: "@aws_admin_lib_device"
-        ebs_type: "@aws_admin_ebs_type"
-        ebs_size: "@aws_admin_ebs_lib_size"
-        ebs_iops: "@aws_admin_ebs_iops"
-        ebs_encrypted: "@aws_admin_ebs_encrypted"
-    firewalls:
-      - internet
-      - "@ssh_firewall"
-      - admin-command-external
-      - admin-data-external
+    "@admin_server_name":
+        count: 1
+        provider: ec2
+        network: "@aws_networks[0]"
+        subnet: "@aws_admin_subnet"
+        image: "@aws_ubuntu_image[<network>]"
+        ssh_port: "@ssh_port"
+        user: "@aws_ubuntu_user"
+        machine: "@aws_admin_machine"
+        tenancy: "@aws_admin_tenancy"
+        monitoring: "@aws_admin_monitoring"
+        ebs_optimized: "@aws_admin_ebs_optimized"
+        groups: "@admin_server_group"
+        domain: "@root_domain"
+        domain_name: "@{admin_server_name}"
+        volumes:
+            "@admin_data_dir":
+                provider: aws_ebs
+                type: ext4
+                location: "@aws_admin_data_device"
+                ebs_type: "@aws_admin_ebs_type"
+                ebs_size: "@aws_admin_ebs_data_size"
+                ebs_iops: "@aws_admin_ebs_iops"
+                ebs_encrypted: "@aws_admin_ebs_encrypted"
+            "@admin_lib_dir":
+                provider: aws_ebs
+                type: ext4
+                location: "@aws_admin_lib_device"
+                ebs_type: "@aws_admin_ebs_type"
+                ebs_size: "@aws_admin_ebs_lib_size"
+                ebs_iops: "@aws_admin_ebs_iops"
+                ebs_encrypted: "@aws_admin_ebs_encrypted"
+        firewalls:
+            - internet
+            - "@ssh_firewall"
+            - admin-command-external
+            - admin-data-external
 
 post_run:
-  zimagi-credentials:
-    server_search: groups.name=@admin_server_group
+    zimagi-credentials:
+        server_search: groups.name=@admin_server_group
 
-  zimagi-user-environment:
-    servers: groups.name=@admin_server_group
+    zimagi-user-environment:
+        servers: groups.name=@admin_server_group
 
-  zimagi-app-environment:
-    servers: groups.name=@admin_server_group
-    env:
-      ZIMAGI_POSTGRES_DB: "@admin_server_database"
-      ZIMAGI_POSTGRES_USER: "@admin_server_database_user"
-      ZIMAGI_POSTGRES_PASSWORD: "@admin_server_password"
-      ZIMAGI_REDIS_PASSWORD: "@admin_server_redis_password"
-      ZIMAGI_ALLOWED_HOSTS: "@admin_server_allowed_hosts"
+    zimagi-app-environment:
+        servers: groups.name=@admin_server_group
+        env:
+            ZIMAGI_POSTGRES_DB: "@admin_server_database"
+            ZIMAGI_POSTGRES_USER: "@admin_server_database_user"
+            ZIMAGI_POSTGRES_PASSWORD: "@admin_server_password"
+            ZIMAGI_REDIS_PASSWORD: "@admin_server_redis_password"
+            ZIMAGI_ALLOWED_HOSTS: "@admin_server_allowed_hosts"
 
-  zimagi-cluster:
-    servers: groups.name=@admin_server_group
-    remote_docker_compose: https://raw.githubusercontent.com/dccs-tech/zimagi-host/master/docker-compose.standalone.yml
+    zimagi-cluster:
+        servers: groups.name=@admin_server_group
+        remote_docker_compose: https://raw.githubusercontent.com/dccs-tech/zimagi-host/master/docker-compose.standalone.yml
 
-  zimagi-wait:
-    wait_hosts: "&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:ip"
+    zimagi-wait:
+        wait_hosts: "&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:ip"
 
-  deploy-zimagi:
-    server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:id
-    destination: "@{admin_server_name}.@root_domain"
-    destination_name: "@admin_server_host_name"
+    deploy-zimagi:
+        server_search: id=&server(network=@aws_networks[0];subnet=@aws_admin_subnet):@{admin_server_name}1:id
+        destination: "@{admin_server_name}.@root_domain"
+        destination_name: "@admin_server_host_name"
