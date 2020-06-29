@@ -121,7 +121,7 @@ server:
         volumes:
             "@admin_lib_dir":
                 type: nfs4
-                location: "&{mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
+                location: "&{storage_mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
                 options: "@aws_efs_volume_options"
                 mode: "0770"
         firewalls:
