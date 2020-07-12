@@ -63,6 +63,32 @@ mount:
         groups: "@admin_cluster_group"
         firewalls: "@storage_firewalls"
 
+server:
+    "@admin_cluster_name":
+        count: 1
+        provider: ec2
+        network: "@aws_networks"
+        subnet: "@aws_admin_cluster_subnets"
+        image: "@aws_ubuntu_image[<network>]"
+        ssh_port: "@ssh_port"
+        user: "@aws_ubuntu_user"
+        machine: "@aws_admin_machine"
+        tenancy: "@aws_admin_tenancy"
+        monitoring: "@aws_admin_monitoring"
+        ebs_optimized: "@aws_admin_ebs_optimized"
+        groups: "@admin_cluster_group"
+        volumes:
+            "@admin_lib_dir":
+                type: nfs4
+                location: "&{storage_mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
+                options: "@aws_efs_volume_options"
+                mode: "0770"
+        firewalls:
+            - internet
+            - "@ssh_firewall"
+            - admin-command-external
+            - admin-data-external
+
 load_balancer:
     "@{admin_cluster_name}":
         provider: aws_application
@@ -88,6 +114,7 @@ load_balancer:
                 healthy_status: "@aws_admin_lb_healthy_status"
                 healthy_threshold: "@aws_admin_lb_healthy_threshold"
                 unhealthy_threshold: "@aws_admin_lb_unhealthy_threshold"
+                server_groups: "@admin_cluster_group"
             data:
                 port: "@admin_data_port"
                 certificate: "@admin_cluster_name"
@@ -99,36 +126,7 @@ load_balancer:
                 healthy_status: "@aws_admin_lb_healthy_status"
                 healthy_threshold: "@aws_admin_lb_healthy_threshold"
                 unhealthy_threshold: "@aws_admin_lb_unhealthy_threshold"
-
-server:
-    "@admin_cluster_name":
-        count: 1
-        provider: ec2_lb
-        network: "@aws_networks"
-        subnet: "@aws_admin_cluster_subnets"
-        image: "@aws_ubuntu_image[<network>]"
-        ssh_port: "@ssh_port"
-        user: "@aws_ubuntu_user"
-        machine: "@aws_admin_machine"
-        tenancy: "@aws_admin_tenancy"
-        monitoring: "@aws_admin_monitoring"
-        ebs_optimized: "@aws_admin_ebs_optimized"
-        load_balancer: "@{admin_cluster_name}"
-        load_balancer_listeners:
-            - command
-            - data
-        groups: "@admin_cluster_group"
-        volumes:
-            "@admin_lib_dir":
-                type: nfs4
-                location: "&{storage_mount(network=<network>;subnet=<subnet>):@{admin_cluster_name}-lib:remote_host}:/"
-                options: "@aws_efs_volume_options"
-                mode: "0770"
-        firewalls:
-            - internet
-            - "@ssh_firewall"
-            - admin-command-external
-            - admin-data-external
+                server_groups: "@admin_cluster_group"
 
 post_run:
     zimagi-credentials:
