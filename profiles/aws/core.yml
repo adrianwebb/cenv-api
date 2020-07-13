@@ -28,7 +28,7 @@ post_run:
             ZIMAGI_AUTO_MIGRATE_INTERVAL: "@admin_auto_migrate_interval"
             ZIMAGI_TIME_ZONE: "@primary_timezone"
             ZIMAGI_CORE_MODULE: "@admin_core_module"
-            ZIMAGI_DEFAULT_MODULES: "@>deploy_modules"
+            ZIMAGI_DEFAULT_MODULES: "@deploy_modules"
             ZIMAGI_DB_PACKAGE_ALL_NAME: "@admin_db_package_all_name"
             ZIMAGI_DB_MAX_CONNECTIONS: "@admin_db_max_connections"
             ZIMAGI_LOG_LEVEL: "@admin_log_level"
