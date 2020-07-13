@@ -48,7 +48,7 @@ config:
     admin_debug: "@CLI_DEBUG"
 
     admin_core_module: "@CLI_CORE_MODULE"
-    admin_default_modules: "@>CLI_DEFAULT_MODULES"
+    admin_default_modules: "@CLI_DEFAULT_MODULES"
     admin_db_package_all_name: "@CLI_DB_PACKAGE_ALL_NAME"
 
     admin_email_host:
