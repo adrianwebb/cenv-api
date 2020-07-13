@@ -172,7 +172,7 @@ post_run:
             ZIMAGI_REDIS_HOST: "&load_balancer(network=<network>):redis-sentinel:variables[lb_dns_name]"
             ZIMAGI_REDIS_PORT: "@redis_sentinel_port"
             ZIMAGI_REDIS_PASSWORD: "@admin_cluster_redis_password"
-            ZIMAGI_ALLOWED_HOSTS: "@admin_cluster_allowed_hosts"
+            ZIMAGI_ALLOWED_HOSTS: "@>admin_cluster_allowed_hosts"
 
     zimagi-cluster:
         servers: groups.name=@admin_cluster_group
