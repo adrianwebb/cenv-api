@@ -90,7 +90,7 @@ server:
             - admin-data-external
 
 load_balancer:
-    "@{admin_cluster_name}":
+    "@admin_cluster_name":
         provider: aws_application
         network: "@aws_networks"
         subnets: "@aws_admin_cluster_subnets"
