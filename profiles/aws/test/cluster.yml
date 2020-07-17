@@ -1,0 +1,44 @@
+parents:
+    - aws/config
+
+config:
+    percona_subnet_public_ip: true
+    redis_subnet_public_ip: true
+    redis_password: "@admin_cluster_redis_password"
+
+profile:
+    base-network:
+        module: cluster
+        profile: aws/network
+        operations: run
+
+    zimagi-network:
+        requires: base-network
+        profile: aws/network
+
+    percona-cluster:
+        requires: zimagi-network
+        module: percona
+        profile: aws/cluster
+
+    redis-cluster:
+        requires: zimagi-network
+        module: redis
+        profile: aws/cluster
+
+    zimagi-cluster:
+        requires:
+            - percona-cluster
+            - redis-cluster
+        profile: aws/cluster
+        deploy_zimagi: true
+
+post_run:
+    zimagi-host:
+        command: host save
+        host_fields:
+            host: "@{admin_cluster_name}.@root_domain"
+
+    zimagi-cluster-rotate:
+        requires: zimagi-host
+        command: user rotate

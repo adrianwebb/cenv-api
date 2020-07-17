@@ -2,6 +2,8 @@ parents:
     - aws/config
 
 config:
+    percona_subnet_public_ip: true
+    redis_subnet_public_ip: true
     redis_password: "@admin_cluster_redis_password"
 
 profile:
