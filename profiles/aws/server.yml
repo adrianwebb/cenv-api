@@ -58,7 +58,7 @@ post_run:
             ZIMAGI_POSTGRES_USER: "@admin_server_database_user"
             ZIMAGI_POSTGRES_PASSWORD: "@admin_server_password"
             ZIMAGI_REDIS_PASSWORD: "@admin_server_redis_password"
-            ZIMAGI_ALLOWED_HOSTS: "@>admin_server_allowed_hosts"
+            ZIMAGI_ALLOWED_HOSTS: "@>>admin_server_allowed_hosts"
 
     zimagi-cluster:
         servers: groups.name=@admin_server_group
