@@ -10,13 +10,6 @@ parents:
 config:
     ssh_firewall: "?> @admin_subnet_public_ip ? 'ssh-external' | 'ssh-internal'"
 
-certificate:
-    "@admin_cluster_name":
-        provider: aws
-        network: "@aws_networks"
-        domain: "@root_domain"
-        groups: "@admin_cluster_group"
-
 subnet:
     admin-a:
         when_in: "@aws_admin_cluster_subnets"
@@ -94,7 +87,7 @@ load_balancer:
         provider: aws_application
         network: "@aws_networks"
         subnets: "@aws_admin_cluster_subnets"
-        domain: "@root_domain"
+        domain: "?> @provision_domain ? '@root_domain' | None"
         internal: false
         idle_timeout: "@aws_admin_lb_timeout"
         groups: "@admin_cluster_group"
@@ -105,7 +98,7 @@ load_balancer:
         listeners:
             command:
                 port: "@admin_command_port"
-                certificate: "@admin_cluster_name"
+                certificate: "@admin_cert_name"
                 target_port: "@admin_command_port"
                 target_protocol: https
                 health_check_path: "@aws_admin_lb_health_path"
@@ -117,7 +110,7 @@ load_balancer:
                 server_groups: "@admin_cluster_group"
             data:
                 port: "@admin_data_port"
-                certificate: "@admin_cluster_name"
+                certificate: "@admin_cert_name"
                 target_port: "@admin_data_port"
                 target_protocol: https
                 health_check_path: "@aws_admin_lb_health_path"
