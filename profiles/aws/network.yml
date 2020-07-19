@@ -9,8 +9,18 @@ parents:
 
 domain:
     "@root_domain":
+        when: "@provision_domain"
+        provider: "@domain_provider"
         keep: true
         certificate_authority: letsencrypt
+
+certificate:
+    "@admin_cert_name":
+        when: "@provision_domain"
+        provider: aws
+        network: "@aws_networks"
+        domain: "@root_domain"
+        groups: "@admin_cert_group"
 
 firewall:
     admin-command-external:
