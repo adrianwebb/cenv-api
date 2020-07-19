@@ -1,6 +1,11 @@
 config:
     root_domain: example.com
     root_domain_email: "someone@example.com"
+    provision_domain: true
+    domain_provider: route53
+
+    admin_cert_name: zimagi
+    admin_cert_group: zimagi
 
     admin_user: "@CLI_ADMIN_USER"
     admin_default_token: "@CLI_DEFAULT_ADMIN_TOKEN"
