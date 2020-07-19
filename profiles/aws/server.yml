@@ -12,6 +12,13 @@ subnet:
         use_public_ip: "@admin_subnet_public_ip"
         nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-a' | None"
         groups: "@admin_server_group"
+    "@{aws_admin_subnet}2":
+        network: "@aws_networks[0]"
+        cidr_prefix: "@admin_subnet_cidr_prefix"
+        zone_suffix: b
+        use_public_ip: "@admin_subnet_public_ip"
+        nat_subnet: "?> not @admin_subnet_public_ip ? 'nat-b' | None"
+        groups: "@admin_server_group"
 
 server:
     "@admin_server_name":
@@ -27,8 +34,6 @@ server:
         monitoring: "@aws_admin_monitoring"
         ebs_optimized: "@aws_admin_ebs_optimized"
         groups: "@admin_server_group"
-        domain: "@root_domain"
-        domain_name: "@{admin_server_name}"
         volumes:
             "@admin_data_dir":
                 provider: aws_ebs
@@ -43,6 +48,47 @@ server:
             - "@ssh_firewall"
             - admin-command-external
             - admin-data-external
+
+load_balancer:
+    "@admin_server_name":
+        provider: aws_application
+        network: "@aws_networks"
+        subnets:
+            - "@aws_admin_subnet"
+            - "@{aws_admin_subnet}2"
+        domain: "?> @provision_domain ? '@root_domain' | None"
+        internal: false
+        idle_timeout: "@aws_admin_lb_timeout"
+        groups: "@admin_server_group"
+        firewalls:
+            - internet
+            - admin-command-external
+            - admin-data-external
+        listeners:
+            command:
+                port: "@admin_command_port"
+                certificate: "@admin_cert_name"
+                target_port: "@admin_command_port"
+                target_protocol: https
+                health_check_path: "@aws_admin_lb_health_path"
+                health_check_interval: "@aws_admin_lb_health_check_interval"
+                health_check_timeout: "@aws_admin_lb_health_timeout"
+                healthy_status: "@aws_admin_lb_healthy_status"
+                healthy_threshold: "@aws_admin_lb_healthy_threshold"
+                unhealthy_threshold: "@aws_admin_lb_unhealthy_threshold"
+                server_groups: "@admin_server_group"
+            data:
+                port: "@admin_data_port"
+                certificate: "@admin_cert_name"
+                target_port: "@admin_data_port"
+                target_protocol: https
+                health_check_path: "@aws_admin_lb_health_path"
+                health_check_interval: "@aws_admin_lb_health_check_interval"
+                health_check_timeout: "@aws_admin_lb_health_timeout"
+                healthy_status: "@aws_admin_lb_healthy_status"
+                healthy_threshold: "@aws_admin_lb_healthy_threshold"
+                unhealthy_threshold: "@aws_admin_lb_unhealthy_threshold"
+                server_groups: "@admin_server_group"
 
 post_run:
     zimagi-credentials:
