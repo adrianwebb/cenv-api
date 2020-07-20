@@ -65,7 +65,7 @@ post_run:
         module: cluster
         task: wait-https
         wait_port: "@admin_command_port"
-        timeout: 600
+        timeout: 1000
 
     deploy-zimagi:
         when: "@deploy_zimagi"
