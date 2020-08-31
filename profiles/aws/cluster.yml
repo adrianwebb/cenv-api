@@ -158,6 +158,7 @@ post_run:
         env:
             ZIMAGI_MYSQL_HOST: "&load_balancer(network=<network>):percona-db:variables[lb_dns_name]"
             ZIMAGI_MYSQL_PORT: "@percona_port"
+            ZIMAGI_MYSQL_WRITE_PORT: "@percona_write_port"
             ZIMAGI_MYSQL_DB: "@admin_cluster_database"
             ZIMAGI_MYSQL_USER: "@admin_cluster_database_user"
             ZIMAGI_MYSQL_PASSWORD: "@admin_cluster_password"
