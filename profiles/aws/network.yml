@@ -1,8 +1,5 @@
 parents:
     - module: aws
-      profile: config
-
-    - module: aws
       profile: domain
 
     - aws/config
