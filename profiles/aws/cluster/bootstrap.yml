@@ -6,15 +6,15 @@ config:
 
 profile:
     base-network:
-        module: cluster
-        profile: aws/network
+        module: aws
+        profile: network
         operations: run
 
     base-nat:
         requires: base-network
         when_not: "@admin_subnet_public_ip"
-        module: cluster
-        profile: aws/nat
+        module: aws
+        profile: nat
         operations: run
 
     zimagi-network:

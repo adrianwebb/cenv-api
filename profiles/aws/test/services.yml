@@ -8,8 +8,8 @@ config:
 
 profile:
     base-network:
-        module: cluster
-        profile: aws/network
+        module: aws
+        profile: network
         operations: run
 
     percona-cluster:
