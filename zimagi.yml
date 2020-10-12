@@ -2,7 +2,7 @@ name: host
 
 modules:
     - remote: https://github.com/dccs-tech/zimagi-cluster-aws.git
-      reference: master
+      reference: main
 
     - remote: https://github.com/dccs-tech/zimagi-percona.git
       reference: master
